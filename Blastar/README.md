@@ -13,6 +13,7 @@ The license is unknown, but is presumed to be open to the public, given it was o
 Orignal description:
 
 Blastar
+
 by Elon Musk
 
 In this game you have to destroy an alien space freighter, which is carrying deadly Hydrogen Bombs and Status Beam Machines.
