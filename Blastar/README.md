@@ -1,4 +1,4 @@
-This is the source code from Elon R. Musk's video game, Blastar.
+This is the source code from Elon R. Musk's video game, Blastar, for the vintage SpectraVideo console.
 
 It was originally published in "PC and Office Technology" magazine, December 1984.
 
