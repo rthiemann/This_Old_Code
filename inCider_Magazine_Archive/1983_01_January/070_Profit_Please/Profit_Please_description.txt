@@ -1,0 +1,144 @@
+Profit, Please
+
+Most businesses prefer profit to loss. This easy-to-use program reveals a company's break-even point. If you don't get the hint, it's your loss!
+
+by Corey D. Schou and Ronald S. Rubin
+
+How can a small business determine if it's turning a profit or losing money? How long will it take for revenues to offset costs? How many products or services must be sold to break even? These questions can be answered through break-even analysis, a simple yet powerful procedure for small business planning.
+
+The technique studies the relationships between sales, fixed costs and variable costs. In general, the breakeven point in business occurs when revenues and expenses are equal; the business is neither making a profit, nor experiencing a loss. Break-even analysis is most useful when applied to future periods as a planning guide, particularly if a change in business operation is anticipated. For example, break-even analysis can provide flexible income and expense projections under assumed conditions and alternative managerial programs.
+
+Some Basic Applications
+
+1. New Product decisions: Each new product has cost implications, which obviously affect price and marketability of a new product. In many small businesses, a new product with uncertain sales volume raises the profit potential, as well as the risks, for that company. Break-even analysis permits the comparison of possible cost structures as trade-offs.
+
+2. Expansion decisions: It may be used to study the aggregate effect of a general business expansion. For example, the relationships between total dollar sales and total dollar costs are examined in order to identify potential changes in these relationships.
+
+3. Profit margin decisions: Breakeven analysis can be used to determine the sales dollars required to earn a given level of profit.
+
+4. Advertising decisions: It may be used to forecast the sales results needed for an advertising campaign to cover costs.
+
+5. Planning decisions: Use of breakeven analysis could enable a business to know if it is on schedule, as far as the overall plan is concerned. There is probably no business that has a nice, even flow of income or expenses, but break-even points provide a ready reference that can be used by the small business to think more about the total plan.
+
+For example, let's assume that the daily break-even point for a particular business is computed to be $400 for each day of operation. A simple mental calculation is all that's required when the day's receipts are added up to determine if the business incurred a loss, broke even or made a profit. A day is normally too short a period of time to make any immediate changes in a business plan, but it would be a simple matter to extend the calculations to a week, two weeks or a month.
+
+Assumptions
+
+This analytical tool makes two as sumptions. The first, seemingly reasonable assumption, is that costs can be reasonably divided into fixed and variable components. By definition, fixed costs are those which do not change with the sales volume, e.g., salaries, rental expenses, depreciation expenses, property taxes, most insurance premiums, and so forth.
+
+On the other hand, variable expenses are those which change with the sales volume of the business. At least one type of variable changes directly and proportionally with sales commission expenses. However , most variable expenses do not vary directly and proportionally with sales. In fact , there are degrees of variability. As a result, most variable expenses are actually semi-variable. That is , some costs remain fixed up to a certain sales volume, and then jump as that volume is exceeded.
+
+For example, office costs or delivery expenses may fit into such a category. The key is good judgement in propor- tioning various costs between fixed and variable categories.
+
+The second assumption is that all costs-volume-profit relationships are linear. But doubling of sales volume may, or may not, double the revenue, because a reduction in the unit price may have been necessary to achieve the volume increase. However, for the limited range surrounding the breakeven point, assume it is accurate enough to be useful. For example, to examine the effect of doubling the level of operations, you would have to develop new (linear or nonlinear) relationships.
+
+The Break-even Technique
+
+The basic formula is:
+
+Revenue = Fixed Costs + Variable Costs
+
+The difference between revenue and variable cost is called the Contribution Margin (CM). This represents each unit's contribution toward covering the fixed costs and thereby making a profit.
+
+CM = Revenue - Variable Costs
+
+If CM is expressed as a percent of revenue, this is found by setting sales equal to 100 percent and finding the percentage of variable costs in relation to sales. Subtracting that figure gives you the Contribution Margin. For example, if sales were projected to be $51,000, and variable costs are $30,665, then the variable costs represent 60.12 percent of the 100 percent (representing sales). We obtain a Contribution Margin of 39.88 percent. The break-even level is calculated by dividing the fixed costs by CM. (Remember, CM is expressed as a percentage of revenue).
+
+                          Fixed Costs (in $)
+Break-even Point (in $) = ------------------
+                          CM(% of Revenue)
+
+Case Example
+
+Consider this situation. A beauty shop owner is considering operation expansion. The owner has identified the fixed and variable costs as presented in Table 1.
+
+The owner estimates that sales could be $51,000 for the expansion year. He wants to know what the break-even point is for that particular year, and how much revenue must be obtained per day in order to break even. The answer to his questions are found in the Demonstration of Technique section of the computer program.
+
+
+Fixed Costs                           Variable Costs
+Depreciation               $1,800     Cost of Goods Sold         $2,775
+Insurance                     210     Wages                      20,000
+Rent                        4,800     Supplies                    4,800
+Interest                      840     Payroll Taxes               2,015
+Utilities                     900     Utilities                     610
+Laundry & Shop Maintenance    360     Laundry & Shop Maintenance    480
+                          -------                               -------
+Total Fixed Costs                     Total Variable Costs
+
+Table 1. Sample of fixed and variable costs.
+
+
+Computer Program and Input Data Preparation
+
+An interactive computer program, written in Applesoft Basic and tested on an Apple II Plus, is provided in the program listing. A slight modification to the program may be necessary for users of other types of microcomputers. The program logic is based on the technical aspects of the break-even technique already discussed.
+
+The program is completely self-documenting, so you can enter input data as required. A key feature is the provision for introducing the rudiments of break-even analysis, as demonstrated in the beauty shop "case example."
+
+Once the program is entered and stored to disk, you then simply load the program into the computer and type RUN. The program then executes and the title page is presented, followed by a brief introduction as to the use of break-even analysis. After pressing the space bar, the following menu appears:
+
+1. DEMONSTRATION OF TECHNIQUE
+2. BREAK-EVEN ANALYSIS CALCULATIONS
+
+If you choose 1 and press the return key, the monitor displays both the fixed and variable costs from our "case example." Depressing the space bar again shows how the contribution margin is calculated, and hitting the space bar once more shows how the break-even point is calculated. Another space bar strike displays the breakeven point formula in Figure 1.
+
+The screen instructions ask you to hit any key; when you do, the formula appears with the appropriate "case example" figures . The answers appear at the bottom of the screen. At this point, any key press lets you calculate your break-even point with your own data input. The display screen prompts you with:
+
+NOW FOR YOUR BREAK-EVEN ANALYSIS
+PROJECTED SALES?
+TOTAL FIXED COSTS?
+TOTAL VARIABLE COSTS?
+
+The menu asks for three pieces of information. Enter each as requested, and after entering the appropriate data, press the return key. The computer will then execute the formula and display the following answers:
+
+CONTRIBUTION MARGIN = (Answer to your data)
+
+At this point the program allows the user to change the contribution margin percentage if desired, or else type N for No. In the latter case, the program continues to calculate output. If the operator wants to change the calculated contribution margin percentage, the screen prints the following:
+
+THE CONTRIBUTION MARGIN SHOULD BE:          %
+
+After striking the return key, the program calculates the appropriate breakeven figures and displays them at the top of the screen.
+
+For the output DAILY BREAKEVEN POINT, we used 254 days of operation in the formulas at lines 112 and 115. However, if your business operates more days than this during the year, you'll have to change the figures in those lines to equal your number of operational days.
+
+If you want to continue running further break-even analyses, the screen will prompt you at this point.
+
+To bypass the Demonstration of Technique phase of the program, you can type in 2 from the original menu. The program will immediately prompt you for data input.
+
+Additional Applications
+
+This concept is also useful in determining the break-even point in terms of profit margin. Remember, the typed break-even approach develops the volume needed for producing no profit. What if you think you're in business to make a profit? (A common business malady!) Let's say you'd like a 10 percent profit margin on the project. Also, let's add that the original contribution margin for the project was 25 percent, but that's at zero profit. In effect, your 1O percent profit now acts like a variable cost. You must adjust contribution margin percentage accordingly: 25% - 10% = 15 % . Now you can calculate the break-even point using the percentage of revenue approach:
+
+               FC
+BE = -------------------------
+     CM% (new adjusted figure)
+
+This gives you the profit margin built into your business. As in the computer program, just subtract the required profit margin (in percentage points) from the original contribution margin displayed on the monitor. Or, if you prefer, you can treat profit in dollar terms, and therefore as a fixed cost. If you decide to use this approach, you must add the dollar profit figure to the fixed cost category.
+
+Another useful application of the break-even technique is in determining the sales dollars required to earn a given level of profit. Suppose a company wants a fixed dollar profit of $150,000. In this case, the profit is treated as a fixed cost. You must add it to the fixed cost established for the project, and calculate the break-even point as you've done before. The only difference would be the addition of the dollar figure to the fixed costs part of the data input.
+
+A third application is finding the effect of an advertising budget. Advertising is essentially a fixed cost. Any added fixed costs raise the break-even point of the business, and this requires added revenue (or lowered variable costs) to pay for them. The revenue for fixed costs comes from the contribution margin. For example, if the CM% is 25 percent, then four additional dollars of revenue are required to cover each additional dollar of fixed cost: $1 / 25% = 4.
+
+So, if the business is considering a $2,500 expenditure for an ad, it will need 4 x $2,500, or $10,000, in extra sales just to cover the cost of the advertisement. This approach provides the small business a built-in standard for judging the results of advertising. For example, if after an appropriate period added sales are not enough to justify the cost of the ad, the campaign can be abandoned.
+
+A final interesting use of this technique lies in the area of expansion feasibility. Here, the analysis suggests whether or not to explore the expansion idea more carefully and in greater detail. In considering an expansion, one would have to estimate the appropriate increases in cost. With these costs taken into consideration, break-even analysis will tell you the amount of sales needed to break even.
+
+Concluding Comments
+
+Break-even analysis is useful for business planning. You can examine cost-volume-profit relationships under a variety of conditions. This aids in profit planning, advertising allocation, planning for new products, and expansion. You now have the technique that will help you attack new and novel business problems, and also help point you toward a rational decision.
+
+References
+Drams , William G., FinanceandAccounting for Nonfinanci al Managers, Addison- Wesley Publishing Company, 1979.
+
+Goulet, Peter G., "Attacking Business Decision Problems with Break-even Analysis," Management Aids for Small Manufacturers, MA #234 , Small Business Administration, Washington, DC.
+
+Hammel , Fred C., "Simple Breakeven Analysis for Small Stores," Small Marketers' Aids, SMA#166, Small Business Administration, Washington, DC.
+
+Steinhoff, Dan, Small Business Management Fundamentals, McGrawHill Book Company, 1978, pp. 199-209.
+
+
+Address correspondence to:
+Drs. Ronald S. Rubin and Corey D. Schou
+Department of Marketing,
+University of Central Florida
+Orlando, FL 32816
+
