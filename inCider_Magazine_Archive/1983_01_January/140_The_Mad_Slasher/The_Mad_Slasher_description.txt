@@ -1,0 +1,25 @@
+The Mad Slasher, and More...
+
+by Lee E. Sumner, Jr.
+
+
+Once I had learned the method by which I could draw lines on the Apple screen, there was little that could draw me away from such activity. After continuous experimentation with Apple's high-resolution graphics, I ended up with a computer full of wonderful, useless one liners.
+
+A "One Liner" is a program that is exactly one Basic line in length. The "One Liner" requires no initialization, and repeats to form some kind of graphic display. The programs as revealed in the listings were written purely for the fun of doing them. It really is a challenge to pack as much action as possible into a single line of code.
+
+The programs are listed as though one program. To call a specific one liner, merely enter
+
+RUN n
+
+where n is the line of the desired program. Each program will continue to run until halted by either a control- C break or the total destruct key, reset. When you enter these programs, don't use any spaces.
+
+Program 1 I call the Mad Slasher. Not much order, but plenty of action. Program 2 simulates a superball bouncing off invisible walls.
+
+In programs 3 through 7, the constant 1.46 is the ratio of 280 to 192. This allows you to step both the x andy axes with only one For...Next loop. You can create your own patterns by changing the beginning part of each HPLOT statement. If you initially plot the locations I used on a piece of graph paper, I think you'll see the method I employed.
+
+I use these programs as demonstrations of the speed and ease of use inherent in Apple graphics. A library of these programs can give you some real "braggin" rights when your TRS-80 friends are around.
+
+Address correspondence to:
+Lee E. Sumner, Jr.,
+75 E. King St.,
+Dallastown, PA 17313
