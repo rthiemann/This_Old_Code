@@ -1,0 +1,23 @@
+DOS Depression
+
+A simple method of avoiding a particularly frustrating DOS error is our first offering for inCider's Hints 'n' Techniques department
+
+by David W. Dilks
+
+While working on a several-hundred-line program on my Apple II, I began receiving inexplicable DOS errors: FILE NOT FOUND when opening a new file for output and APPEND commands writing over existing data at the beginning of files.
+
+To locate the cause of this annoying problem, I began deleting one program line at a time until all that remained was the program shown in the program listing.
+
+Try typing in and running this program yourself. If the file named Data doesn't exist on the disk, this program will terminate with a FILE NOT FOUND error. However, when line 30 is deleted, the program runs smoothly. Another way to solve the problem is to insert a dummy Print statement between lines 30 and 40.
+
+Moral: To avoid Apple DOS problems, locate at least one Print statement between each Get command and any disk operation.
+
+
+Address correspondence to:
+
+David W. Dilks
+Project Engineer
+LTI, Limno-Tech Inc.
+15 Research Drive
+Ann Arbor, MI 48103
+
