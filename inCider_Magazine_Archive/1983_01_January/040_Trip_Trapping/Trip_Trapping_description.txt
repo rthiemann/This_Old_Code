@@ -1,0 +1,65 @@
+Trip Trapping
+
+A handy, and readily accessible, error-trapping unit for your Pascal System.Library
+
+by James R. Fiorini
+
+The Pascal language design emphasizes carefully structured programming and rigidly specified variable typing. Unfortunately, this approach leaves all responsibility for entry error protection to the programmer. This "feature" (i.e., bug) of the language causes a lot of agony as Pascal programmers advance to the stage of writing interactive programs for others. It's very hard to anticipate all of the ways in which a naive user might misinterpret your carefully designed prompt statements. For example, if you've coded a program with the reasonable premise that nobody has a name longer than 40 characters, and thus declare NAME:STRING[40] as a variable, a longer name entry will be truncated to 40 characters with no warning to the user.
+
+Another problem can result when the user makes an unexpected choice from a menu. Suppose you ask the user to reply with either a 1, 2, 3 or·4 to a question; you've carefully planned the actions the program will take following each of these, using that delightful feature of Pascal, the CASE statement. What happens if the user accidentally presses E instead of 3? In UCSD Pascal, the program simply skips the CASE statement entirely, and that is certainly not what you had in mind when writing the program.
+
+Probably the most annoying "feature" of Pascal variable type restrictions is the fatal run-time error that occurs when a nonnumeric character is touched as the first "digit" when input of a real or integer is specified. ("Fatal" may sound extreme, but it really f eels that way when the program stops—with loss of all entered data.) At first, it may seem that the best way to have a user enter an integer variable designated NUMBER is with a READLN(NUMBER). Nothing could be farther from the truth! If that user accidentally hits a nonnumeric key first, the whole program bombs. And if this is the 200th entry in a long series of data from a complicated experiment, he might say one or two uncomplimentary things about the programmer, Apple, UCSD and Blaise Pascal.
+
+What's needed is a system of error-trapping routines to prevent the user from making any entry not foreseen by the programmer—or at least keep the program from processing erroneous entries. Of course, omniscience is in relatively short supply, even among Pascal programmers, and the students who use my programs find some remarkably inventive interpretations for my prompts. Bitter experience indicates that the best solution is a series of entry routines that not only trap errors, but inform the user about them and suggest what the correct entries should be at that point in the program.
+
+These routines are useful in virtually any program involving interactive entry of character, numerical or string data, so it is logical to include them in the System.Library where they can be used conveniently in any program. This Library is set up for convenient expansion to fit the user's needs. Like too much of the Apple documentation, the instructions in the manuals are rather imposing the first time they are encountered, and inexperienced programmers might be reluctant to make modifications to the Library. This article intends to show how a useful Unit can be installed in the Pascal System.Library. To make things comfortable, I have presented a step-bystep description of exactly what must be done to include the Unit in the Library (see Listing 1). Finally, there is a short program (Listing 2) which illustrates how these utilities can be used in a program.
+
+First, the Unit itself. The GET CHAR function is reasonably simple; it prints one or two prompt lines (specified when the function is called in the program), uses UNITCLEAR to make sure that the user doesn't respond until he sees the prompt(s), allows a chance to exit the program using the escape key, and converts any lowercase entries to uppercase (this minimizes the number of "acceptable" characters that must be specified in the program). If the character entered is not among those specified as the Function is called, the user is notified, shown a list of the acceptable characters that were specified at that point in the program, and prompted again. Only an acceptable response is returned to the main program. There's no way the user can make an unexpected response under these circumstances.
+
+PROCEDURE GET ENTRY is a similar utility for the entry of strings. In this case, the length of the string is specified to avoid unexpected loss of characters from an overlong string. In keeping with my desire to let the user see just what's wrong when an entry error is detected, this procedure indicates precisely how much too long the string was. If you have the 1.1 version of Apple Pascal, you'll have to start program texts with the (*$V-*) compiler directive. This allows use of this part of the unit with strings of a variety of lengths. Although page 6 of the Addendum to the Language Reference Manual threatens dire consequences (i.e., "unpredictable results") if this string length checking is turned off, I've done this in many programs with no apparent ill effects.
+
+The VALUE function does the same thing as the VAL function in Basic; it converts a string entry into a real (or, if ROUND or TRUNC is used, an integer) variable. This avoids all those infuriating program interruptions which result from nonnumeric entry errors, and also allows backspacing to correct errors the user notices before he presses the return key. The essential part of the Function is the analysis of the string of numerals, digit by digit; an integer value is assigned to each digit by reading its position in the string 123456789. The rest of the Function takes care of negative and exponential entries, checks that the string isn't too long, that all entries are numerical, goes to some trouble to prevent out-of-range errors, and even removes commas in case the user isn't aware that 12,345 is not compatible with Apple's handling of numerical variables. To take advantage of feedback to the user on out-of-range or nonnumeric errors, it's a good idea to use the VALUE function immediately after a string is entered, not after a whole series of entries. Besides, real or integer variables use much less memory than do the corresponding strings.
+
+Note that recursion is used in three of the procedures in the VALUE function. CHECK_NUMERALS keeps calling itself until all the entries are in the specified set, and GET_EXPONENT and SHOW_ERROR both call the entire VALUE function (of which they are parts) to get the value of the exponential portion of the Entry string. Also, note that one part of the Unit (VALUE) can call another part (GET_ENTRY) of the same Unit.
+
+Cookbook Instructions
+
+Now, how do we get all these nice things included in the System.Library?
+
+1. Enter and compile UNIT UENTRIES just as printed here. Save it as UENTRIES on your boot disk, and on a backup disk just to be safe.
+
+2. Save the current System.Library onto a backup disk as Old.Library. These instructions are quite foolproof , but...
+
+3. Insert the Apple 3: disk in drive #2. From the Command: level, X)ecute APPLE3:LIBRARY.
+
+4. The first thing that appears is the prompt "Output code file ->", which means "What are you going to call the new Library?" Enter SYSTEM.LIBRARY, or * for short. Then press return.
+
+5. The next prompt, "Link code file ->", means "What library is the lucky recipient of the new unit?" Again, enter either SYSTEM.LIBRARY or *.
+
+6. Now the screen fills with columns of numbers, unit names, etc., and the top line shows a remarkably incomprehensible prompt. If you have a 40-character screen, you can use control-A to see the other half of the screen, but there's nothing of much interest there. Enter = because you want to keep everything that's in the current Library; no return is necessary.
+
+7. There is now much whirring, lots of flashing, and the names of all the Units currently in the System.Library are transferred to the list of the new library on the lower half of the screen. It's rather exciting the first time you see it. For the Pascal 1.O system, five slots are filled. For 1.1, the first six slots are occupied (Chainstuff was added).
+
+8. When the action stops, enter N to show that you want to enter a new Unit. The prompt "Link code file ->" appears near the top of the screen.
+
+9. Assuming you carefully followed instruction 1, now enter UENTRIES. After more whirring and flashing, the upper half of the listing will disappear and you' ll see
+
+1-(26) ENTRIES 2038
+
+in the upper part. If this doesn't happen, check again to be certain that you have UENTRIES.CODE on the boot disk, and that you haven't changed the Prefix disk designation.
+
+10. Now type 1 (the number of the slot where Entries is listed) and press the space key (not return) followed by the number of the first empty slot listed at the bottom of the screen. (For Pascal version 1.0, this should be 6, and for 1.1 it should be 7.)
+
+11. More whirring and flashing. Your new unit advances to its proper station among the blessed , and the same old first-line prompt returns. Now type Q (absolutely not A! Why did they pick two adjacent keys?) to end things.
+
+12. The Apple will beep as if you made a mistake, but you didn't. A "Notice?" prompt appears at the bottom of the screen. Now you can enter anything you want-a copyright notice, something to remind you about what you did here, or even a string of vulgar words. (The only way this message can be seen is by using the LIBMAP program, so you aren't likely to offend anyone.) End it by pressing return.
+
+13. After a bit more whirring, the Command: prompt line reappears, and you now have a new System.Library which is five blocks longer than the original version and has a new date associated with it. Check by going to the F)iler and getting an E)xtended directory of the boot disk.
+
+14. Enter and run Program Testunit to see if everything came out properly.
+
+Now you can use these utilities in any program by just including USES ENTRIES; after the program name. The Testunit program illustrates their use and the way the parameters are specified.
+
+Address correspondence to Dr. ]ames R. Fiorini
+Biology Dept., Syracuse University
+Syracuse, NY 13210
