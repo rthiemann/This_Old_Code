@@ -1,0 +1,40 @@
+*****************************************************************************************
+** The original table for this was laid out in a way that wouldn't fit in an 8-column  **
+** layout. Make sure to use a monospaced font and turn off line wrap to view it.       **
+*****************************************************************************************
+---------------------------------------------------------------------------------------------------------------------------------------------------
+|                      | Comments               | Average Number of Accesses in a | Advantages                     | Disadvantages                |
+|                      |                        |        1000-record File         |                                |                              |
+|                      |                        |---------------------------------|                                |                              |
+|                      |                        | If record is   If record is not |                                |                              |
+|                      |                        | in the file    in the file      |                                |                              |
+|--------------------------------------------------------------------------------------------------------------------------------------------------
+| Sequential search    | Also suitable for      | 500            1000             | 1. Easy to program.            | 1. Very slow.                |
+| in an unsorted file. | tape files.            |                                 | 2. No extra storage needed.    |                              |
+|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| Sequential search    | Also suitable for tape | 500            500              | 1. Easy to program.            | 1. Slow.                     |
+| in a sorted file.    | files.                 |                                 | 2. No extra storage needed.    | 2. File must be sorted when- |
+|                      |                        |                                 | 3. Better than the sequential  |    ever additions are made.  |
+|                      |                        |                                 |    search in an unsorted file, |                              |
+|                      |                        |                                 |    if the record is not in the |                              |
+|                      |                        |                                 |    file.                       |                              |
+|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| Binary search in a   |                        | 11             11               | 1. Not difficult to program.   | 1. File must be kept sorted. |
+| sorted file.         |                        |                                 | 2. Quite fast.                 |                              |
+|                      |                        |                                 | 3. No extra storage needed.    |                              |
+|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| Interpolation search | Distribution of data   | 5              5                | 1. Fastest of all methods in   | 1. File must be kept sorted. |
+| in a sorted file.    | in the file must be    |                                 |    sequential files.           |                              |
+|                      | known. Principle can   |                                 | 2. No extra storage needed.    |                              |
+|                      | be adapted to some     |                                 |                                |                              |
+|                      | extent for tape.       |                                 |                                |                              |
+|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| Partitioned file     |                        | 100*           200*             | 1. Easy to program.            | 1. Extra storage may be      |
+| (unsorted).          |                        |                                 | 2. File does not have to be    |    needed.                   |
+|                      |                        |                                 |    sorted.                     |                              |
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+*Assumes file is divided into 5 partitions of 200 records each.
+
+Table 1. Summary of file access methods in sequential files.
+

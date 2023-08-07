@@ -1,0 +1,137 @@
+Apple Data—A Bumper Crop
+
+Here is the first of a three-part series that explains all you'll ever need to know about speeding up your file searches. No strings attached...
+
+by Peggy Burnett
+
+Searching for a particular record in a file can make your computer operate at a snail's pace, causing increased frustration instead of the increased productivity you'd like. This series of articles presents some techniques to speed up the process. This month's installment explores file access methods for sequential files, and future installments will cover access methods in direct-access files and indexed files. Table 1 summarizes the techniques explained this month.
+
+*****************************************************************************************
+** Table 1 was laid out in a way that wouldn't fit in an 8-column layout. Look for the **
+** file called: sequential_file_access_methods.txt to access it.                       **
+*****************************************************************************************
+
+First, let me explain a few conventions. The term "sequential file" describes a file whose entries are organized just like a string of beads, one bead right after the previous one. Examples of this are a file whose entries are ordered by employee's social security number or arranged alphabetically by customer name, and a file with each entry in the order in which it was entered into the computer.
+
+I'll describe ways to find a particular record in such a file, and present an algorithm, or "pseudo-program," for each. The algorithms are not written in any particular programming language. Instead they are written less formally, with the emphasis on logic flow rather than syntax. You should have no difficulty translating the algorithms to your own programming language.
+
+The Unsorted Sequential File Search
+
+This is the slowest access method of all, but also the easiest to program. I include this method mostly for comparison with the other methods, since most of you are already familiar with it. You can add to the file by writing records sequentially after the end of the file, and retrieve a record by starting at the beginning of the file and reading sequentially until you find the right one. This method is suitable for small files, and can be used on tape as well as disk files. Listing 1 shows the simple algorithm to do this type of search.
+
+Accesses: You would have to read an average of half of all the records in the file to find a particular one using this method. In a file containing 1000 records, this means an average of 500 accesses. If the one you're looking for isn't in the file, you'll have to read all 1000 records before you find that out.
+
+Advantages: This method is easy to program, and takes no storage in addition to the actual data in the main file.
+
+Disadvantages: It is very slow.
+
+The Sorted Sequential File
+
+The only difference between this kind of file and the unsorted sequential file is that the file is physically arranged "in order." For example, a sorted sequential file of employees is ordered by employee number or social security number, arranged alphabetically by name, or put in some other logical sequence. This allows you to tell whether your current position in the file is before or after the position of the record you're looking for. You can use this extra piece of knowledge in several ways.
+
+The sequential search takes the same . number of accesses as in an unsorted file to find a record that does indeed exist in the file (500 accesses in the 1000-record file I mentioned earlier). However, you can also determine in an average of 500 accesses whether the record you need is in the file, as opposed to having to read all 1000 records in an unsorted file. Listing 2a shows the algorithm for this kind of search. This method could be done just as easily on tape as on disk.
+
+The binary search is much faster than the sequential search on disk files (you wouldn't use it on tape files), and is not difficult to program. You first check the middle record in the file to determine if its value is greater or less than the one you want. If it is greater, you know that the record you're looking for is in the first half of the file; otherwise it is in the second half. This simple check lets you eliminate half the records in your file with only one access! You then repeat the process by checking the middle record of the half you're still interested in, thereby eliminating half of those records in only one more access. And so on. This kind of search takes: log2(n) + 1 accesses, where n is the number of records in the file. This works out to be a mere 11 in our 1000-record file example. The algorithm is shown in Listing 2b.
+
+The interpolation search, also called the "telephone book" search, can be used in a sorted sequential file when you have a pretty good idea of where in the file your record is located. For example, in an alphabetical file of customers, you would expect to find Zelda Zimmerman near the end of the file. If you were looking up her name in the telephone book, you wouldn't look for her at the beginning (as in the sequential search), or at the middle (as in the binary search), but near the end. The interpolation search works the same way. After determining the distribution of data in your file, you can put a formula or a table into your program that tells you where a particular record (theoretically) should be found.
+
+Here is an example. Suppose you have a 1000-record sorted file filled with account numbers between 1 and 9999. After doing a little analysis, you have learned the typical distribution of these account numbers in your file. Let's say they look like Table 2. For simplicity, assume that the numbers within each range are evenly distributed. So if you want account number 6050 (in the 6001-7000 range), it should be located 50/1000 of the way between 63.6% and 64.8% through the file, which figures out to be 63.66%. (I got the number 63.6% by adding 1.2% + 1.9% + .3% + ... + 49.6% from Table 2. Adding 1.2% more to 63.6% gives us 64.8% .) If you multiply 63.66% by 1000 (the number of records in the file), you learn that account number 6050 should be at record 637.
+
+
+Account Number Range    Percent of Total
+        1-1000                 1.2%
+     1001-2000                 1.9
+     2001-3000                  .3
+     3001-4000                10.0
+     4001-5000                  .6
+     5001-6000                49.6
+     6001-7000                 1.2
+     7001-8000                34.6
+     8001-9000                  .4
+     9001-9999                  .2
+                            100.0%
+
+Table 2. Distribution of the account numbers in the Interpolation Search example.
+
+
+So far, so good. You know where the record should be. You then read record 637 to see if you guessed right. But suppose record 637 has account number 8000 in it. This account number is theoretically 99.4% of the way through the file . (64.8% + 34.6%, from our table again), so you need to figure out where to try next.
+
+A handy little formula goes with this method that works nicely to tell you where to look next. The neat trick about this formula is that it works on any kind of distribution your file might have, because you use it on the percents (which are by definition uniformly distributed) rather than on the actual account numbers.
+
+THIS__REQ# = LO__REC# + (FRACTION* SECTIONSIZE) - 1
+
+where: SECTIONSIZE = HL__REC# - LO__REC# + 1
+
+and FRACTION = (THIS__% - LO__% + 1) / (HI__% - LO__% + 1).
+
+So, in your first calculation; you had:
+
+FRACTION      = (63.66 - 1 + 1) / (100 - 1 + 1)
+              = .6366
+SECTIONSIZE   = 1000 - 1 +1
+              = 1000
+THIS__REC#    = 1 + (.6366 * 1000) - 1
+              = 637.
+
+For your second try, since account number 8000 is too high, you set:
+
+HL__% = 99.4, and HL__REC# = 637
+
+and compute your new values as follows:
+
+FRACTION      = (63.66 - 1 + 1) / (99.4 - 1 + 1)
+              = .64
+SECTIONSIZE   = 637 - 1 + 1
+              = 637
+THIS__REC#    = 1 + (.64 * 637) - 1
+              = 408
+
+So you try record number 408 next. Suppose it contains account number 5000, which is supposed to be 14% of the way through the file. Since its value is too low, you set:
+
+LO__% = 14 and LO__REC# = 408
+
+and use the formula again:
+
+FRACTION      = (63.66 - 14 + 1) / (99.4 - 14 + 1)
+              = .59
+SECTIONSIZE   = 637 - 408 + 1
+              = 230
+THIS__REC#    = 408 + (.59 * 230) - 1
+              = 543
+
+So the next try will be at record number 543. You repeat this process, narrowing the range each time as in the binary search, until you either find an entry or run out of records to try.
+
+One caveat-you must know the distribution of your file to use this technique. If the distribution cannot be predicted or if it is unstable, you may lose efficiency rather than gain it using this method.
+
+I have heard it claimed (but I can't prove it) that the average number of accesses using this method is: log2(log2 (n)) + 1, which amounts to about 5 in a 1000-record file. Whether or not this formula is exactly correct, the method has been demonstrated to be quite efficient in files with known distributions, and can even be adapted to some · extent for tape files. Qne example of the interpolation search is shown in Listing 2c.
+
+Accesses: You can find a record in the sorted sequential file-in an average of 500 accesses (in our 1000-record file), 11 accesses or (maybe) 5 accesses, depending on whether you use the sequential search, binary search or interpolation search, respectively.
+
+Advantages: Obviously, searching this type of file can be faster than searching an unsorted file, and the programming to do it is not difficult. No additional storage is required other than the main file, and two of the methods described (the sequential search and the interpolation search) can be adapted for use on tape.
+
+Disadvantages: The file must be kept sorted. This means that whenever you make an addition, the file must be sorted again. Since sorting takes up a fair amount of time and storage space, the sorted sequential file organization is more suitable for relatively stable files than it is for files you frequently add to and delete from.
+
+The Partitioned File
+
+This is a crude but effective compromise between the unsorted sequential file and the sorted file. The idea is to use the unsorted file (to avoid sorting it all the time), but chop it into partitions, each of which contains a certain range of values, more or less along the lines of the sections of the interpolation search.
+
+For example, you might choose to divide your file into five sections of equal size (200 records in each section, in the 1000-record example), with the first section covering the letters A-E, the second covering F-L, the third covering M-N (lots of people in our customer file have names starting with those two letters), the fourth with letters O-R and the last with letters S-Z. So customers whose names begin with the letters A-E go into the first partition whenever they are added, those with letters F-L into the second, and so on.
+
+Then, to retrieve a record from the file , you can look at the first letter of the customer's name, and only search one-fifth of the file (using the unsorted file search), instead of the whole file . The algorithm is given in Listing 3.
+
+Accesses: The average number of accesses to find a record will be half the partition size if the record is in the file, or all the partition size if the record is not in the file. If a 1000-record file is broken into five partitions, this amounts to 100 accesses to find a record that is in the file (or 200 if it is not).
+
+Advantages: This is almost as easy to program as the unsorted file search algorithm, yet it cuts the number of accesses dramatically. Also, you don~t have to continually sort your file.
+
+Disadvantages: This technique is slower than the binary search and interpolation search. Also, you have a potential problem with overflow—if you run out of space in a given partition, you then have to decide where to put the record. The easiest solutions to this problem are 1) to also establish an overflow partition (which will cut into your search efficiency somewhat), or 2) to make the partitions big enough in the first place. Both of these solutions require extra storage. A third alternative is to make each partition a separate file, an approach that doesn't use much extra disk storage, but is a little more difficult to program.
+
+Conclusion
+
+You can use these techniques exactly as presented, or tailor them to fit your own applications. These methods offer impressive improvements in search times, especially for relatively stable sorted sequential files. However, many applications have files that are more complex, larger, or simply not sequential in nature. Next month, Part II will talk about direct-access files, and Part III in this series will treat indexed files.
+
+
+Peggy Burnett is a partner in the computer systems consulting firm of Bulgren and Burnett Inc., and specializes in small-computer applications. She holds an M.S. degree in computer science, and has been a data processing consultant to small businesses since 1972.
+
+Address correspondence to:
+PO Box 1355
+Lawrence, KS 66044
