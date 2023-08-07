@@ -1,0 +1,52 @@
+Speedy Alchemy
+
+Build this simple pH meter interface for under $20-and give your lab students a little (comic) relief.
+
+by Rolf A. Deininger and Carl F. Berger, Jr.
+
+Data acquisition and reduction remains a largely unexplored microcomputer utility. Microcomputers are ideally suited to collect data from instruments, analyze it, and have it available in machine-readable form for transfer to other computers or for archival purposes.
+A pH meter is a typical laboratory instrument. It measures the degree of acidity or basicity of a solution, and expresses the result in terms of pH, the negative logarithm of the molar hydrogen ion concentration. The pH scale ranges from 0 (very acidic) to 7 (neutral) to 14 (very basic). A pH meter consists of a probe that contains a hydrogen-ion-sensitive glass bulb and a reference electrode. A voltage differential directly proportional to the hydrogen-ion concentration develops at the probe; this differential is measurable and, after suitable amplification, is displayed on the voltmeter of the instrument panel. The voltmeter on the (somewhat antique) pH meter shown in the photo responds to a voltage between -25 and +25 mV (millivolts).
+
+Interface
+
+To interface the pH meter directly to an Apple If microcomputer without an A/D (analog-to-digital) converter (there are several on the market but they cost from $200-$500), you must convert the -25 to +25 mV signal into a resistance between about 100 and 150k ohms. This resistance can then be measured by one of the four simple circuits built into the Apple II that normally measure the resistance of the potentiometers in the paddles.
+
+The Circuit
+
+Figure 1 shows a diagram of a circuit that amplifies and shifts the voltage signal of the pH meter to a positive voltage and then converts the voltage into a resistance through the 2N2222 transistor. The circuit needs to be tuned to give a good response in the range between a pH of 4 and 10. The actual amplification circuit can be housed in a small box as shown in the photo.
+
+** Figure 1 not shown. See files in reference_images **
+
+Calibration
+
+The circuit was calibrated using standard pH reference solutions of 4, 7 and 12. Table 1 shows the corresponding paddle readings. Although a plot of the data shows that the circuit is not quite linear, for purposes of demonstration the pH value is calculated based on two straight-line approximations through the three points. The approximate formulas for the pH values are:
+
+for pH< 7: 11.5 - 0.03 * PDL(O)
+for pH> 7: 14.5 - 0.05 * PDL(O)
+
+
+pH          Paddle (0)
+ 4            210
+ 7            150
+ 10            50
+
+Table 1. Paddle readings for three different pH reference solutions.
+
+The Program
+
+The program listing shows a small program in Integer Basic that displays the pH value in large letters on the screen for classroom viewing. Enough remark statements have been included to make it self-documenting. Most of the statements in the program are dedicated to showing the large letters and numbers on the screen.
+
+Demonstration
+
+To demonstrate the system, put some vinegar and water into a beaker and use the pH meter and Apple II setup to display the pH on the CRT. Then neutralize the solution using an Alka-Seltzer tablet. When the pH reaches 7.0, the Apple II will play a little tune (guess what?). To push the pH even higher, add some baking soda.
+
+Conclusion
+
+The small circuit shown is sufficient to demonstrate the simple interfacing of a laboratory instrument to an Apple II microcomputer. It is no precision system, but the results are repeatable and close enough for classroom demonstrations. Total hardware cost of the interface is less than $20.
+
+
+Address correspondence to:
+Rolf Deininger and Carl Berger, Jr.
+The University of Michigan
+School of Public Health
+Ann Arbor. MI 48109
