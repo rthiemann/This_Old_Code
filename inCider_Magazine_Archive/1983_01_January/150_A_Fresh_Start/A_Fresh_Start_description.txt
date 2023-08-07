@@ -1,0 +1,172 @@
+A Fresh Start
+
+by Bill O'Brien
+
+If you expected Suzanne Somers, I can almost guarantee you're going to be disappointed (I never did look good in a wig).
+
+Your reading this column right now (or even later, for that matter) tells me that you probably fall into one of two categories: either you own an Apple III, or you don't (to this day, I'm grateful to the Axel O'Malley School for Deductive Reasoning). In either case, I'm willing to bet you have a lot of curiosity about what's happening for, with and to them . This is the first of a series, and it may be a little different than most. I'd like to see if it's possible to have serious discussions about the care, feeding and use of a computer and not destroy the fun of owning one.
+
+Why a Henway?
+
+A while back somebody asked that fateful question. The same goes now: Why an Apple III? Why not any of the other names found in the litany of computers that assails our consumer senses every time the urge to join the electronic revolution sets in?
+
+How about a very simple answer: "I bought the Henway because it was a Henway and at the time, I wanted a Henway."
+
+I can hear you all now: "What the heck is this guy talking about? I thought this was a computer column? What's a Henway?" (About two pounds-! couldn't pass that up.) The point is, you really shouldn't buy something just for a name (or not for a name, for that matter).
+
+Apple got a lot of very bad publicity when it introduced the III in 1980. The first groups of machines didn't work well. I had one that liked to reboot itself, or just crap out, usually as I was trying to show it to a customer (you got me; at one point in my life I actually worked for a computer store in New York City). As you might imagine, that wasn't too great for sales.
+
+It got to a point where the customers would come in and crack jokes about the machine ("I've got a friend who brought his Apple III in for service. He didn't know what was wrong with it, but he figured there must be something—it worked.") They were right. Apple knew, I knew, and they knew it. It was a bad time for the III.
+
+But Apple did something that was surprising. They didn't just bail out and throw the III to the dogs. They dedicated more people and more money to finding out where they had gone wrong. A lot of it really was hardware problems, and some of it was dealer problems.
+
+The Good, the Bad, the Unexpected
+
+The Apple III is a sophisticated machine. Before the III's introduction, many dealers thought that configuring a computer meant unpacking it, plugging it in along with any boards it needed, and turning it on. Show and Sell. Now they had a machine that had to be learned. The operating system had to be set up for the number of disk drives and the type of printer used. Basic was different from the II's Basic. There were no built-in languages-everything was loaded in from disk. Even the manuals were different. They weren't as friendly as the Apple II manuals, and no one seemed to be able to answer questions.
+
+When a computer has an erratic personality and needs time devoted to it, and the two occur at the same time, you find that many times it violates the dealer's laws of profitability. And when that happens, not many machines are sold.
+
+Apple upgraded the hardware so that everybody buying the newer machines would have reliable models. Then they did something that will forever endear them to my heart: they swapped new machines for old. Anyone who had purchased an Apple III with a serial number below 14000 was given a new one in exchange.
+
+Dealers Often received Apple III technical tips and answers to the questions people were asking. A year after its debut, the III had its second coming (portentious words, if ever I've heard them). That's one reason I bought the III: Apple really was (and is, so it seems) committed to the product.
+
+Personal Considerations
+
+But that was only one reason. When you go out looking for a computer in the same class as the Apple III, you're forced to make certain assumptions (oh, but I hate that word). We're going to assume that we'll leave out everything that doesn't have an 80-column screen. Why an 80-column screen? Convenience.
+
+You buy a computer so that, in some ways, you can be lazy. Telecommunications systems are usually more useful with 80 columns of printing available. Word processing programs emulate the printed page, which, coincidentally, is ruled for 80 columns of characters. Switching screens, sliding back and forth, they all might be passable in a hobby or casual use situation, but a lot of 80-column boards are sold for Apple II's: Spreadsheet applications are running optimally when the greatest number of columns of data can be viewed at the same time.
+
+We're also going to exclude anything that doesn't have upper- and lowercase letters. Let's face it, we learned all that big letter and little letter stuff in grade school. We spent a lot of time copying them into our notebooks and writing them over and over again for homework. Why waste all that effort and energy? Let's deal with lowercase—it's a recognized part of the language.
+
+A Peripheral Choice
+
+Disk drives are another thing to consider. We're going to eliminate any computer companies that don't supply disk drives with their own brand name. There are times when you buy a computer from this company and an add-on disk driye from another. They don't work together for some reason. Who takes responsibility? Is it the computer that doesn't work with the add-on, or vice versa?
+
+Not every company is going to say, "Oh, it's not our part, it's that other one." That would be as unrealistic as believing that every company would, or could, take responsibility for every application the product was used in. Sometimes it is easier to be able to say, "Apple, I've got an Apple drive connected to my Apple computer with an Apple cable; and it doesn't work. How come?"
+
+Also, some applications require a lot of storage, more than you could find on most of the floppy disks available. For these uses, you might require a hard disk, which has much more memory. While there are companies that offer them in varying sizes for several different machines (including Apple IIIs), Apple, among a few others, mar.kets their own drives (made by someone else, but carrying the Apple label).
+
+Apple also has a relatively lowcost service agreement for complete carry-in repairs, and a heck of a lot of authorized Apple dealers (and every one of those little guys is an authorized Level 1 service center). While it's not unheard of, it is rare that a machine or part has to leave the dealer to be repaired.
+
+The Disclaimer
+
+Now please, let's not flood the post office with letters from manufacturers of Apple III compatible hardware. I'm not saying that a person shouldn't buy anything but Apple products. The Apple II proved that. There are many companies dedicated to providing quality add, ons with reliable customer support. And you can bet dimes to dollars that almost anything without the Apple name on it will be less expensive. But unless you've really done your homework on a system, and you know enough about it to get around any problems that might come up with alien boards ana plugs and things, start off with all name brand merchandise.
+
+Get the minimum system you can learn with, and, as you grow more aware of the needs of the system and the reliability of it and everyone else, then flesh it out. If you're more comfortable, at that point, with Apple products, no problem. Likewise, if you're not, no problem either.
+
+So much, for the hardware of it. I don't want to get overly precise and start talking about bits and bytes and bank selecting memory and 6502s versus 6502Bs. These are all things that I think are nice to know if you want to know them, but I don't think anyone should have to know them just to use a machine.
+
+Basically Speaking
+
+There are very few things I really must know about a computer when I buy it. How to turn it on and where what plugs into what, of course, are top on the list. But the single thing that I can't wait to find in the manual is how to clear the screen. Only problem is, it's the one thing that is never on the first page of the instructions. Unfortunately, after I see all the nonsense and the copyright notice, it's usually the first thing I want to do.
+
+Let's go down the list of a few Apple III commands that might be helpful immediately.
+
+HOME—clears the screen and leaves the cursor in the upper left corner (the "home" position for the Apple III).
+
+VPOS—sets the vertical line on which you want the cursor or anything printed. It can be from 1 to 24. HPOS—is like VPOS, but it sets the horizontal position of the cursor or printed character. It can be from 1 to 80.
+
+GET—is a way of taking single characters typed at the keyboard into a program . When you use GET, the program stops until you press a key.
+
+INPUT—use this to type in a name or some piece of information longer than one character. It stops the program and takes in all the keys you press until it sees the return key.
+
+PRINT—is a " show-off' command. Once you've done something you're proud enough of to let someone see, PRINT it.
+
+IF...THEN—checks for a certain condition and, IF the program finds it, THEN it will go and do something about it.
+
+Basic with Dignity
+
+I wouldn't want to guess how many programmers use those commands (or ones just like them) for the bulk of all the programming there is. Let's write a small program (see the program listing) and find out how they work. If you happen to have an Apple III, put away VisiCalc for a few moments and try typing it in.
+
+Like almost all forms of Basic, Business Basic uses line numbers to keep track of what's supposed to happen where and when in a program. You'll use them when you write your powerful program (c'mon, everybody says his program is powerful, why shouldn't you?).
+
+But hold on there, that program uses more than a few simple commands! All right, settle in there. It's not that difficult. HOME clears the screen; VPOS=5 starts whatever you want to do on the 5th vertical position from the top of the viewing screen; HPOS=1 fixes things exactly at the 1st horizontal position of line 5.
+
+INPUT might have given you a little trouble, but it's logical enough. Rather than have a user just sit there looking at a computer that requires a response, Basic lets you include a prompt to tell people what the program is looking for (otherwise you'd have to use a PRINT statement, th en the INPUT).
+
+A Question of Marks
+
+The only demand Basic makes is that prompts be enclosed in quotes and followed by either a comma, if you don't want to automatically print a question mark when the program is run, or a semicolon, if you do. (F'rinstance, as it's written, line 40 will look like this when the program is run:
+
+What is your name?
+
+but, if you had used a semicolon, it would look like this:
+
+What is your name??
+
+Double question marks might be good sometimes, but it's nice to be able to program them out.)
+
+At the end of that line, you've created a variable, called NAME$. I had no special reason for calling it that, except that it will help to remind you later on what the variable stands for without having to go through half a dozen lines to figure it out. The III allows long variable names, so you can be very descriptive. The $ says that this is a string variable, and may contain a mixture of alphabetic and/or numeric characters.
+
+What Goes In Must Come Out
+
+Lines 50, 60 and 70 are no problem—you've seen them before. Line 80, though, is an experience. Here you're trying to make the program a little friendlier by addressing the user by name. PRINT will, of course, take the section in quotes and print it on the screen. The semicolon at the end of the line instructs Basic to stop there and use that point as the starting point for whatever is printed next. In this case , it's the user's name, found in NAME$.
+
+The possibilities with PRINT are a comma, a semicolon or nothing. A comma tells Basic to print whatever comes next in the first available tab position that occurs after whatever was just printed (most computers have this feature, with "tabs" marked at the first screen column, the ninth, and after every eight spaces until the end of the line). Since nothing occurs after NAME$, Basic will print a carriage return, to bring the next print position back to the beginning of the line, and a line feed, to bring it down to the next line so you don't print over what you've just written.
+
+...and In Again
+
+That takes care of lines 90 and 100 as well. What's next? Ah yes, line 110. I've already told you about GET, and here it is in action. Once here, the computer waits with the utmost patience until you press one of the keys on the keyboard. Then it springs into action! Quickly, it finds out what key was pressed, assigns its value to the variable you've told it to expect, and then, faster than a speeding nanosecond, it moves on to the next line of the program. Not bad for a three-letter instruction!
+
+By now I think you realize that KEY$ is just a variable name made up for convenience , just as NAME$ was.
+
+After pressing the key, you go through 120 and 130, convey the social amenities with 140 , and just take a moment to make sure that the user did press the key you asked for.
+
+Branching with Conditionals
+
+(A serious subtitle, take note!)
+
+We're checking to see IF the value assigned to KEY$ was either a capital Y or a lowercase y (either is acceptable; we don't want to put too much strain on the user). If it wasn't, THEN GOTO line 200.
+
+"Huh?", you say. It's understandable, since I did just sort of throw that one at you. Use the less than(<) and greater than (>) signs to judge for nonequalities. Maybe it will help to read it in English instead of Basic:
+
+If key-string does not equal capital Y and keystring does not equal lowercase y then go to line 200.
+
+That's a little better, isn't it? Some things remain unexplained, like how we got the GOTO. In the case of Apple III Business Basic, making a valid line number (now, c' mon, you wouldn't want to try to send the program off into the twilight zone, would you?) the object of the THEN is the same as telling the program to goto that line number if the preset conditions are met. Some versions of Basic require the GOTO; this one doesn't.
+
+Okay, but what's a GOTO? It's an instruction to Basic that tells it to go to a line number; you can see how this works in line 170 (but that's getting a little ahead of yourself).
+
+If, in line 150, you find that KEY$ does equal Y or y, the program ignores the THEN command and (in Business Basic as well as some others) it ignores anything and everything else that follows within the same line number. There is an exception, but for now just keep it in mind. That sends it right down to line 160 , which shows that even computers have feelings, and line 170 after that, where the program goes to line 300.
+
+If, oh horror of horrors, KEY$ does not equal Y or y, then, according to the instructions, it goes to line 200, where, being the arrogant, self-sufficient beast it is, the computer berates the poor human for not following directions.
+
+In either case, both branches of the program wind up at line 300. The END command isn't required by Business Basic, but since you'd probably like to wrap this up at some point, use it. You can place it wherever you won't accidentally run into it, and send the program to it when appropriate.
+
+The Tunnel at the End of the Light
+
+Do you see how easy it is? But don't reach for that Bud yet (or, if you're like me, that egg cream). I'd like to show you just one more thing.
+
+Each of the lines you've written is called a Basic statement. Business Basic, having been written by the Great Programmers, does not waste space, so you don't have to use separate line numbers for each statement. You can combine those that work together. Lines 10, 20 and 30 could be written:
+
+10 HOME:VPOS=5:HPOS=1
+
+as could lines 50, 60 and 70:
+
+50 HOME:VPOS=5:HPOS=1
+
+and lines 120 and 130:
+
+120 VPOS=10:HPOS=1
+
+(Even the GET KEY$ could be part of it, but for clarity it isn't). You must, however, separate the statements with colons, and preserve some special considerations for the IF...THEN condition.
+
+You could change things a little so the conditional goes like this:
+
+150 IF KEY$="Y" THEN PRINT"You got the key.":GOTO 300
+
+This would work fine unless KEY$ did not equal Y. At that point, it would ignore the GOTO 300 and continue on to the next line. You'd have to eliminate lines 160 and 170, just in case. In this particular program it's not critical, but if you had programmed in a number of choices, it could get tricky. The Great Programmers have provided an out for us in case we get into trouble: the ELSE statement. You can use it like this:
+
+150 IF KEY$="Y" THEN PRINT"Great!":ELSE PRINT"Not so great"
+
+That's the only statement Business Basic will recognize following an untrue IF...THEN conditional. You must include the colon (this is an oddity of Business Basic-most other versions don't need it).
+
+You've got enough to play with (did I mention that we were playing? Well, we are, because if we were doing work, it wouldn't be any fun). In fact, you've probably got enough to get yourself into not-so-serious trouble.
+
+Next time we might take a look at all those strange messages you're going to get when you try to key that program in (dpn't get me wrong, the program's okay, but if you've never done it before, you might be surprised).
+
+Ciao bene, AppleAmerica ....
+
+
+Address correspondence to Bill O'Brien, 11
+Dongan Place, New York, NY 10040.
+162 Eider January 1983
