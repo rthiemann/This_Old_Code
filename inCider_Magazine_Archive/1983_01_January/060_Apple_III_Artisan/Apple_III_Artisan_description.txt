@@ -1,0 +1,333 @@
+Apple III Artisan
+
+Put away your Business Basic, and find your smock...time to color your III with more than spreadsheets and budgets.
+
+by Bill O'Brien
+
+When my Apple III first walked into the house, I was thrilled. I had a machine with good potential for graphics (no, not great, but better than my 8032 or my TRS-80 Model III). Why, in black and white I could squeeze in 560 horizontal dots and 192 vertical dots. (Hang in there, I'll get to color modes shortly.) I even bought a joystick for all the great things they can do. Since there are two joystick ports on the back of the machine, I couldn't wait to become graphically oriented.
+
+The letdown arrived shortly thereafter. Aside from Desktop Plan III, no one was doing anything with the graphics. Here was this fantastic opportunity to run a game in 60K of program space and everybody's just sitting on their hands!
+
+(Let's take a quick aside: Yes you can run the Apple III in Apple II emulation mode, but the joystick peeks seem to be split between the two ports on the back of the III. Yes, the Apple III was meant to be used as a business machine, but after a hard day of data entry I really could use a few jolts of Galaxian. In fact, this feeling seems common among most of the people for whom I've installed machines. You know there must be some validity to it when, after setting up a $13K multiuser system, the first question you're asked is: "Are there any games for it?")
+
+Well, I couldn't just sit idly by and let such a situation continue. I took out my trusty Apple Business Basic Reference Manual Volume 2, and my equally valuable Owner's Guide, and set out to perform a task.
+
+What resulted wasn't a game (rats!), just a program, or rather the beginnings of a program, that uses the joystick port to draw on the Apple III graphics screen. We'll take a look at it, as well as at some of the available graphics functions. By the time you're done, you'll know enough to take these sparse lines and flesh them out to fit whatever needs you have.
+
+Let's Start Typing
+
+10 HOME
+1000 ON KBD GOTO 1420
+1020 PREFIX$=".D1"
+
+In the beginning there was the Home command, and when it was given, the chaos of the screen cleared and gave way to calm and the void.
+
+Home, of course, clears the screen and deposits the cursor in the upper left corner. The ON KBD statement alerts the machine to an eventual action. It says, "Keep going with the rest of the program, but if a key is pressed, immediately go to the line number I'm now telling you about."
+
+PREFIX$ is a reserved variable. You can use it in a program, but it has a special meaning. It reminds the Apple III of the route it should take whenever it does any disk input or output. This may not seem like a big deal to you. However, if you have a single drive system, try (if you haven't already) removing the boot disk, putting another disk in its place, and doing anything at all with this other disk. The only response you'll get is a VOLUME NOT FOUND error message.
+
+All the storage devices connected to the Apple III have more or less logical ways of being addressed. At most, you can hang four floppy disk drives. By now you may suspect that, as far as the computer is concerned, they're called .D1, .D2, .D3 and .D4. If you have a hard disk connected, you could, for lack of creativity, call it .PROFILE.
+
+What's with all the dots, you might ask? The dot at the start of the drive name tells the Apple that this is actually a route to the device you want to access. For that reason it's called a Pathname. When you first turn on your system the only thing the Apple's really sure of is that it has one disk drive. The default drive is therefore .Dl.
+
+When you say SAVE MYPROGRAM.BAS, you're actually instructing the computer to SAVE .Dl/MYPROGRAM.BAS. The Apple is assuming the default prefix to your program. If you said .D2/MYPROGRAM.BAS, or .D3, or any of the drive names, your program would have been routed to the path you named. Just make certain you really have the item named, or you'll be severely chastised by the computer! To this day I don't know how they got the little hand and the whip in there.
+
+You can change the default drive by assigning its name to PREFIX$ as in line 1020. (In this case, you've just reassured yourselves that drive 1 actually is the default.)
+
+1040 OPEN#1,".GRAFIX''
+
+Oh no, another dot! Yes, this is also a Pathname, but not to a storage device. The Apple III can access driver routines as well as disk drives. Driver routines are all part of that wonderful file called SOS.DRIVER. They can be used simply by opening them, just as if they were any other file you wanted to handle. You do know what drivers you have in SOS.DRIVER, don't you?
+
+Hang On
+
+At this point you might want to take a deep draught of your favorite beverage. You may get a little nervous. Even if this isn't the case, your throat will probably be grateful for the refreshment.
+
+You should now find a disk that contains these files:
+
+SOS.KERNEL
+SOS.DRIVER
+SOS.INTERP
+BGRAF.INV
+
+If your knees are beginning to shake, you can find them (the files, not your knees) on the Apple Business Basic disk. But there's not much room there to store another program. If you'd like to create your own disk, merely format a blank with the System Utilities disk, and copy these four files from the Basic disk (not from the Utilities disk).
+
+The SOS.DRIVER is a collection of files used by the operating system to route all of the input/output devices. The drives are also in there, but Apple was smart. You can't really play with them.
+
+Boot the computer using the Utilities disk and select the System Configuration Program option. (For the snobs in the audience, that's SCP.) When the next menu appears, press the R key for READ DRIVER. If you have only the one disk drive, remove the Utilities disk and replace it with a disk you've previously used to boot the machine (the Basic disk would be the perfect choice). If you have two drives, insert the other disk in drive 2.
+
+If you have one drive, just press return. If you have two, change the .D1/SOS.DRIVER to .D2/SOS.DRIVER. Press return.
+
+Whirr. Click....
+
+Sometime in the near future the screen will partially clear and a list will appear that might look something like this:
+
+1. CONSOLE
+2. AUDIO
+3. PRINTER
+4. SILENTYPE
+5. PROFILE
+6. GRAFIX
+7. PARALLEL
+8. RS232
+
+Take Your Pick
+
+How many of these you have, or what order they're in, isn't really important. Since all of the above files can be used, and all take up memory when they're loaded in, you must choose between being always prepared and having the most free memory. Let's look at this list.
+
+Console—That's necessary, for without it you wouldn't be able to see anything on the screen.
+
+Audio—If you want to turn your Apple III into an electronic organ, fine. We don't need it now.
+
+Printer—As supplied by Apple, it's for a Qume printer. Or you may have altered it to accommodate some other printer. If you want to dump a listing of this program to your printer, then retain this specification.
+
+Silentype—Only for the Apple Silentype printer. If you don't have one, leave it off. Same rule applies here as for Printer. If it's your listing device, keep it; if not, give it the axe.
+
+Profile—This is the hard disk driver. If you don't have one, the odds are good you won't have this driver. If you have a hard disk drive, retain this driver.
+
+Grafix—I think we'll hang on to this one for now.
+
+Parallel—This is another "option" driver that might be on your system as the driver for a parallel printer or for parallel communications with another machine.
+
+RS232—This is a bidirectional serial driver; usually used to communicate over the phone lines with a modem. Unless you're using it as a printer driver, you don't really need it.
+
+If you happen not to find Grafix, get a disk called System Utilities Data. Use the Read option of the SCP...there, now we've all become snobs. Read in Grafix.Driver, using either a .D1/ or .D2/, as your system requires.
+
+To disable any of the drivers after you've read them in, press the escape key and choose Edit. Yes, you can remove them completely, but why go through the bother of restoring them later? When the drivers are listed, press the number for the one you want to omit, and then press the return key. For the next choice select 4, Status, and make the driver inactive. This will keep it on the disk, but will not load it when you boot. Repeat these steps for all drivers you don't need.
+
+Help
+
+If you run into problems, or are a bit squeamish about getting into this level of modification just now, you have two choices. Either spend a quiet evening alone with the Device Drivers Manual and practice on a lot of copies of disks, or go back to your dealer and boldly say, "I'd like a little support, please."
+
+There shouldn't be any problems. Just one favor—don't call me at 8:30 on a Sunday morning. Yes, I know you're in England and it's 1:30 in the afternoon there, but here in the States Saturdays are very long evenings that sometimes chase Sunday morning.)
+
+Since all driver files can be accessed like regular files, we'll use line 1040 to open one up.
+
+Witchcraft?
+
+1060 INVOKE"BGRAF.INV"
+1070 PERFORM INITGRAFIX
+
+Line 1060 comes from a musty old tomb found in the ruins of a burnedout cottage in Salem. It releases the screen demons.
+
+Actually, the BGRAF.INV file that we made sure we had along with the SOS routines, is a machine-language subroutine. By invoking this file, you load it into memory and ready it for use. Good as our word, line 1070 makes immediate use of it.
+
+When you "perform" an action related to an invokable file, you send the little Apple III messenger running throu'gh the RAM stacks looking for that section of the file you want to perform. In this case, its called INITGRAFIX. As part of BGRAF.INV, it shuffles your program around in memory so it won't be destroyed when you use other graphic routines. Essentially, it initializes the graphic environment.
+
+Adding Color
+
+1100 PCOLOR = 15 
+1120 BUFFER = 1
+1140 MODE = 2
+1160 PERFORM GRAFIXMODE (%MODE, %BUFFER)
+1180 PERFORM GRAFIXON
+1200 PERFORM PENCOLOR (%PCOLOR)
+1220 COLOR% =0
+1240 PERFORM FILLCOLOR (%COLOR%)
+1260 PERFORM FILLPORT
+
+Could someone please assist those 14 people who have just fainted?
+
+Lines 1100-1140 create variables you'll use later on. They really could've been called anything, but I chose PCOLOR because that's the value the Pen COLOR will be, BUFFER because you'll be using a graphic "buffer," and MODE because you'll also be using one of the graphic "modes." I like to keep everything orderly, and since it's my program, to quote Mel Brooks, "It's good to be the King."
+
+All of the drawing on an Apple III screen is done with a pen. And pens, of course, come in different colors; Table 1 shows what's available. The four modes are shown in Table 2. For each of the modes, two buffers, or drawing areas, can be. used. That means you'll need a maximum of 32K of memory for drawing.
+
+
+0 Black
+1 Magenta
+2 Dark Blue
+3 Purple
+4 Dark Green
+5 Grey 1
+6 Medium Blue
+7 Light Blue
+8 Brown
+9 Orange
+10 Grey 2
+11 Pink
+12 Green
+13 Yellow
+14 Aqua
+15 Black
+
+Table I. The Apple III colors.
+
+
+ Mode    Memory
+Numbers   Used   Description
+  0         8K   280 x 192 black & white
+  1        16K   280 x 192 limited color
+  2        16K   560 x 192 black & white
+  3        16K   140 x 192 full color
+
+Table 2. The four available graphics modes.
+
+
+Mode 0 is straightforward. Beginning in the lower left corner, which is the Home, or 0,0 position, for the graphic screen, you can handle 280 dots across (0 to 279) and 192 dots from bottom to top (0 to 191).
+
+Mode 1 is a little tricky. You have the same number of horizontal and vertical positions, but in color. Because it's a color mode, it imposes a few restrictions. The 280 horizontal dots are actually composed of 40 groups of seven dots each. When you turn on (paint) any of the dots in any "family," the painted dots in that group of seven will all be the same color.
+
+If, at some later time, you change the pen color and paint one of the dots in the group, all of the turned-on dots in that same group will change to the new color. (The dots that are on are said to be in the foreground, while the dots that are off are in the background. The same rule holds true for the background dots. Changing the color of any one dot in the background will change the color for all background dots of the same group.)
+
+Mode 2 is absolute ecstasy. As well as the 192 (0-191) vertical dots, you have 560 of those little buggers to play with (0 to 559) horizontally; the amount of medium detail drawing is excellent.
+
+Mode 3 is similar to Mode 1, but each of the 140 horizontal or 192 vertical dots can be painted independently of the others.
+
+Buffers are the areas in memory used to hold the data you want to display on the screen. With a possible 116K of memory to be used (three 16K modes, with two buffers each, and one 8K mode, also with two buffers), you might assume that the different modes and buffers share memory space—they do. In fact, as I said, we only need 32K of buffer to move around in.
+
+Since you can switch back and forth between buffers, you can have a picture in Mode 0, Buffer 1, in Mode 0, Buffer 2 and in Mode 1 or 2 or 3, Buffer 2. By changing the values assigned to the variables MODE and BUFFER and issuing a PERFORM GRAFIXMODE(%MODE, %BUFFER) command, you can switch back and forth between these three areas.
+
+You cannot use Mode 0 at all, though, if you're using Buffer 1 of any of the other modes, since they overwrite the Mode 0 areas. Nor can you use the same buffer for any of the other modes, since they each share the same 16K buffer areas. See Figure 1. (Switching from Mode 1, Buffer 1 to Mode 2, Buffer 1 will distort the contents, since the display options do not coincide. Switching to Mode 2, Buffer 2, however, lets you jump back and forth between the two screens.)
+
+Line 1160 performs a subroutine (just like INITGRAFIX), but this time you're passing two variables into it, telling the graphic system which mode and which buffer of that mode to use (in this case, Mode 2 and Buffer 1—but you knew that from lines 1120 and 1140, right?)
+
+The % signs are small tranquilizers that you must use to reassure the graphic system that the variables we arq passing are integers. Had you defined MODE as MODE% , you would still have to use the leading % symbol.
+
+Line 1180 turns on the graphic screen. You're getting used to this, aren't you? Line 1200 sets the pen color (if you guessed it was white, go to the head of the class and keep reading). Another variable is created in 1220. This is the color used to fill in the background every time you clear the screen. Set that color in line 1240 . Just as in normal screen work, "clearing the screen" is simply filling the screen with some color. Line 1260 performs the filling (notice that even though you defined COLOR% as an integer, you still had to use the leading % ).
+
+Digest all of that for a moment while I recap for the West Coast.
+
+To do graphics, you use a machine-language module called BGRAF.INV, which is called (invoked) into memory. Within BGRAF, subroutines handle (PERFORM) the tedious work of selecting and setting graphic points on the screen.
+
+Onward!
+
+1280 FLAG=1
+1300 Y% = PDL(3)* .74902: X% =PDL(2)*2.19216
+1310 GOTO 5700
+
+The variable in line 1280 will be used later on to remind the program that we've already been through here. Again, it could have been called anything, but since it's a flag, the name FLAG seems appropriate.
+
+Rattle Your Paddle
+
+The two joystick ports on the back of the Apple III can each read two paddle inputs. Typically these are variable resistors that range from 0 to 150k ohms. I'll be working with port A. If you have a Silentype printer, use port B and change line 1300 to read
+
+1300 Y% =PDL(1)* .74902:X% =PDL(0)* 2.19216
+
+Line 1300 reads the Y (vertical) axis of the screen from PDL(3), while the X (horizontal) axis is obtained from PDL(2). The only problem is that the input from PDL will be in the range of 0 to 255 in each direction. You'll have to scale these figures to work within the selected mode. I've chosen Mode 2, so I scale:
+
+560/255 = 2.19216 for the horizontal
+192/255 = .74902 for the vertical
+
+In any of the other modes, you would substitute 280 or 140 for the 560 to get the correct horizontal factor. In case you hadn't noticed, all modes have the same vertical resolution: 192.
+
+As it stands, line 1300 takes care of all that. If you do enlarge on the program, a few well chosen If...Then statements could handle the factor options. I'll get to line 5700 a little later in this broadcast.
+
+Pushing Its Buttons
+
+1420 IF KBD = 67 THEN PERFORM FILLCOLOR (%COLOR%): PERFORM FILLPORT
+1425 IF KBD = 71 THEN PERFORM GSAVE."PIC" + STR$(COUNT): COUNT=COUNT+ 1
+1430 IF KBD = 69 THEN 1520
+1435 IF KBD = 68 THEN 5800
+1440 IF KBD = 84 THEN 5000
+1445 IF KBD = 80 THEN 5200
+1460 ON KBD GOTO 1420
+1480 RETURN
+
+Remember, way back at the beginning of the program, we specified that if any key were pressed the computer should stop what it was doing and immediately go to line 1420? Well, we're here. These lines help us determine what key was pressed and what should be done because of it.
+
+The variable, KBD, is an integer that contains the ASCII value of the key that was pressed. Table 3 contains a list of the values used. If you'd like to experiment a little, write a one-line program:
+
+= = > 10 GET A$:PRINT A$;" ";ASC(A$): GOTO 10
+
+To exit from it you'll have to press the reset key, but not the control key. That will give you the ASCII values for every character your keyboard can generate. The only warning here is that the graphics program looks for capital letters; lowercase characters will not work.
+
+
+Key  ASCII Value   Function
+ C       67        Clear screen
+ D       68        Draw with dots
+ E       69        End program
+ G       71        Save the image
+ P       80        Draw with lines (paint)
+ T       84        Add text
+
+Table 3. ASCII values of function keys.
+
+
+Line 1425 deserves a brief note. If, for some egotistical reason, you should happen to like the picture you've created, it would make no sense to destroy it when you had to leave. GSAVE.filename saves the picture (the . must be included). In our case, the variable COUNT is turned into a string and made part of the name so that the first picture saved will be PIC0, the next PIC1, and so on. Take heed! The variable is reset to zero every time the program runs.
+
+1500 REM _________________________
+1510 REM
+1520 FOR X=1 TO 4:PERFORM RELEASE: NEXT X
+1540 CLOSE
+1560 HOME:PRINT CHR$(15)
+1580 END
+
+If the program detects an E, it jumps straight to line 1520. It may look like we're freeing prisoners-that's because we are.
+
+Up until now, the buffer memory has been reserved solely for graphic use. Since the program ended when it branched here, it would be nice to have all that memory back. You never know, you might want to use it for writing a program.
+
+PERFORM RELEASE takes care of this matter, and petitions the Apple III memory governor to have all that penned-up memory paroled back into your custody. First it tackles Buffer 2 of Modes 1, 2 and 3, releasing that 16K group; then it moves down to Buffer 1 of those same modes and does the same. Buffer 2, Mode 0 follows, joined shortly thereafter by Buffer 1. If you haven't used that much memory, it's no great strain to do this four times, since nothing else is affected.
+
+Home, of course, clears the text screen, while printing CHR$(15) switches back to the original type of text display (80-column, 40-column, colored backgrounds). You could have done the same thing by issuing a Text command, but that would reset the text screen to 80-column mode.
+
+Even though this subroutine ends the program, you're not done yet.
+
+5000 REM _________________________
+5005 REM
+5010 PERFORM PENCOLOR(%0):PERFORM DOTAT(%X%,%Y%): PERFORM PENCOLOR(%PCOLOR)
+5020 GET A$
+5030 IF A$=CHR$(7) THEN 1460
+5040 IF ASC(A$)<32 THEN 5020
+5050 PRINT#1;A$;
+5060 GOTO 5020
+
+More Possibilities
+
+Up until this point (and you'll have to take my word for this until we get to line 5700), we've been moving around the screen having a great time filling in dots and lines and things. We pressed the T key, and now the program has changed the pen color to black, put a black dot at the last known X, Y joystick position, returned the pen to its original color and is waiting for us to type in some text. And all of that in only lines 5010-5020!
+
+The two things it looks for are the control-G, which signals the end of text input (line 5030), and any key, or key sequence, that produces a character with an ASCII value less than 32 (line 5040). If it finds the former, it returns to line 1460, where you reinitialize the ON KBD statement and then return to the same point in the program from which ON KBD sent you packing. (And you thought I wasn't going to explain why I used a Return when I hadn't used a Gosub!)
+
+Any other character is printed on the screen using the resident character set and color of whichever mode you're in. The cursor automatically advances one character position and goes back and waits some more.
+
+5200 REM _________________________
+5202 REM
+5203 PERFORM PENCOLOR(%PCOLOR)
+5205 IF BUTTON(2) < >0 THEN 1460
+5210 Y% =PDL(3)*.74902:X% =PDL(2)* 2.19216
+5220 PERFORM LINETO(%X%,%Y%)
+5230 GOTO 5205
+
+This is the painting portion of the program, where you draw with lines instead of dots (it's a smoother, more continuous line). As long as the joystick button's value is equal to zero (not pressed), line 5220 will continue to place (Lineto) a continuous line of dots from the last position to the new cursor position. Press the button on the joystick, and you return.
+
+5600 REM _________________________
+5602 REM
+5603 PERFORM PENCOLOR(%COLOR)
+5605 IF BUTTON(2)< >0 THEN 1460
+5610 Y% =PDL(3)*.74902:X% = PDL(2)*2.19216
+5660 PERFORM DOTAT(%X%,%Y%)
+5670 GOTO 5605
+
+This is similar to the line drawing routine, except that instead of a continuous line extending from the last cursor position to the next , dots form the path . The end result is a dot pattern that, more often than not, is segmented. This is because the time the program spends checking itself, and then going to the joystick port, is longer than the time it takes you to move the joystick.
+
+5700 REM _________________________
+5705 REM
+5710 :
+5715 PERFORM MOVETO(%X%,%Y%)
+5720 DCOLR% =EXFN% .XYCOLOR
+5730 :
+5735 PERFORM PENCOLOR(%0):PERFORM DOTAT(%X%,%Y%)
+5750 PERFORM PENCOLOR(%15):PERFORM DOTAT(%X%,%Y%)
+5770 PERFORM PENCOLOR(%DCOLR%):PERFORM DOTAT(%X%,%Y%)
+5780 :
+5790 Y%=PDL(3)*.74902:X% =PDL(2)*2.19216
+5795 GOTO 5700
+
+Finally! The fabled line 5700!
+
+This short section is where the program spends most of its time. While it's waiting for a key depression to tell it what specific functions you want done, it polls the joystick, keeping track of its present location . All along, whenever you've seen the joystick's screen location, it's been represented as a flickering dot. The tricky part is to not erase any dot that is already turned on when you flicker past it.
+
+To do that, you need another of the procedures found in BGRAF. This one is called EXFN%.XYCOLOR. I'm betting that by now you know what this does. Just in case you don't, I'll tell you. EXFN %.XYCOLOR reads the color of the dot at the current cursor location . Remember, whether the dot is in the background or the foreground , it will always have a color.
+
+I've assigned the variable DCOLR% (the dot color) to this number. Lines 5735 to 5770 take the current cursor location, put a black dot there, put a white dot there (to get the flicker) and then replace it with a dot of the original color. Then they scan the joystick to see if it has moved, and repeat the process. Without this routine you'd erase whatever was under the dot before you got there.
+
+And that's the entire program.
+
+You're On
+
+What comes to mind immediately is adding a little simple geometry and perhaps making the program recognize the S key to generate shapes. There's also the F key to fill in the shapes. After that, where do you stop? An M function to change buffers, modes and colors?
+
+Why are you sitting around? Don't say I never gave you anything. However, I expect something in return . Somebody, anybody, write just one Apple III game. Get the game published. I'll settle for chess, but please, no Wumpus!
+
+Address correspondence to:
+William O'Brien
+WABASA Consulting & Management
+111 Brook St. Scarsdale, NY 10583
