@@ -1,0 +1,153 @@
+Statistics for the Masses
+
+Our author shows how statistics can be managed easily and painlessly, and rewards the reader with a program that will generate these meaningful numbers.
+
+by Steven A. Schwartz
+
+Regardless of background or profession, most people have a fairly good idea about what the term "average" implies. Statistically, it is calculated as the sum of all cases divided by the·number of cases. When you take an average of a set of numbers, you are deriving a single statistic which summarizes those numbers. Summary statistics such as this are useful in communicating to others what a set of data looks like without having to relate each individual item.
+
+For example, it is simpler to say that the average monthly electric bill for the last year was $43.65 than to list all 12 bills separately. This becomes even more apparent (and essential) when you work with a large number of cases (e.g., the average height of American men).
+
+Although such statistics are most frequently encountered in news articles and research or su ey results, they are equally useful in business settings (to describe sales of an item over a given period of time, to summarize cash receipts, etc.) and in the home (utility bills, budget calculations, etc.).
+
+Our society is exceptionally number-oriented. We look to the Dow-Jones Industrial Average to determine whether stocks rose or fell for the day. We watch the weather on local television to see how today's temperature compared with the typical temperature for this time of year, and what the average rainfall has been. We examine the Consumer Price Index to see how our standard of living has fared and what to expeCt in the near future.
+
+The following program for summary or descriptive statistics is intended to help you generate some meaningful numbers of your own. As you examine the program and run it with your own data, you'll develop an intuitive grasp of the meaning of the statistics and a "feel" for how they relate to one another.
+
+System Requirements and Program Output
+
+I wrote the program shown in the listing in Applesoft Basic for a 48K Apple II Plus with a single disk drive and 132-column printer. The disk is necessary only if you wish to save your data set(s) for further analysis (e.g., adding more cases as they become available). With a little work, it should be relatively easy to convert the program for use with a cassette-only system. I'll provide suggestions later in the article for use with an 80-column printer-or no printer at all.
+
+Data Description 2.0 (see program listing) calculates summary statistics for a maximum of 20 variables and 225 cases at a time. It provides titled and dated output, automatic page numbering, variable labels, reviewing/editing of the data (either all cases or selected cases only), saving data to and reading from disk, and error handling.
+
+Statistics for each variable include the sum of all cases, the mean (arithmetic average), the maximum and minimum values, the range of cases, the variance, standard deviation, standard error of the mean, skewness, kurtosis, and the number of cases. In addition, the program also performs a frequency count for each variable and prints a histogram (bar graph) to show you what your data distribution looks like.
+
+Explanation of the Statistics
+
+To best understand the statistics available with Data Description 2.0, look at this short example. Suppose you wanted to see how many cigarettes you smoked in a two-month period. To do so, you would enter the number smoked for each of 60 days. Mter running the program, the results might look like those in Figure 1.
+
+The sum (2002) is the total number of cigarettes smoked during the 60 days. The mean (33.366667) is the average number of cigarettes smoked per day over the 60-day period. Note that the mean is calculated by dividing the sum by the number of cases (2002/60).
+
+The program next prints the maximum (55) and minimum (18) for the variable. Thus, the most cigarettes smoked in a day was 55 and the least was 18. The range (37) is simply the difference between the maximum and minimum (i.e., 55 - 18).
+
+The variance and standard deviation are two statistics that describe the dispersion, or spread, of data values about the mean. The smaller the figures, the closer all data values group around the mean-that is, the more homogeneous the data set. Mathematically, the standard deviation is simply the square root of the variance.
+
+According to the authors of the SPSS (see Reference), if you were to draw an infinite number of equal-sized samples from a given population, the mean of each sample would be an estimate of the true population mean, but not all of them would be identical. The pattern of these means would constitute a normal distribution and would have a standard deviation. The standard deviation of this distribution is the standard error. Thus, the standard error helps us determine the potential degree of discrepancy between the sample mean and the (usually) unknown population mean. In general, we deal only in samples and sample statistics. Our cigarette study, for example, represents only a single sample of all the 60-day periods we might have examined.
+
+Skewness and kurtosis tell us about the shape of the data distribution. A positive value of skewness indicates that the cases are grouped to the left of the mean (low end) with thE) extreme cases to the right. A negative value indicates the opposite. You'll see a value close to zero (as in the cigarette example) when the distribution is a normal bell curve.
+
+Kurtosis indicates the relative flatness or peakedness of the data curve. A normal distribution will have a kurtosis of zero. If the kurtosis is positive, then the distribution is more peaked (narrow) than would be true for a normal distribution, while a negative value means that it is flatter. The positive value in our example (.46) suggests that the distribution has a slightly higher peak than in a normal curve. To see the shape of the distribution in our example, turn Figure 1 on its side with the bar graph facing up. The two peaks (9 days of 29 cigarettes per day and 8 days of 35 or 36 cigarettes per day) account for the positive kurtosis.
+
+********
+* CIGS *
+********
+
+SUM     = 2002                         VARIANCE    = 49.761582
+MEAN    = 33.3666667                   STAND. DEV. = 7.05418897
+MAXIMUM = 55                           STAND. ERR. = .910691879
+MINIMUM = 8                            SKEWNESS    = -.0410452523
+RANGE   = 37                           KURTOSIS    =.462266477
+
+NO. OF CASES = 60
+
+VALUE      COUNT     %       CUM. %    HISTOGRAM OF FREQUENCIES
+18           1       1.67      1.67    * (1)
+19           3       5.00      6.67    *** (3)
+22           2       3.33     10.00    ** (2)
+24           1       1.67     11.67    * (1)
+26           1       1.67     13.34    * (1)
+27           1       1.67     15.01    * (1)
+28           1       1.67     16.68    * (1)
+29           9      15.00     31.68    ********* (9)
+30           4       6.67     38.35    **** (4)
+31           2       3.33     41.68    ** (2)
+32           1       1.67     43.35    * (1)
+35           8      13.33     56.68    ******** (8)
+36           8      13.33     70.01    ******** (8)
+37           1       1.67     71.68    * (1)
+38           5       8.33     80.01    ***** (5)
+39           3       5.00     85.01    *** (3)
+40           3       5.00     90.01    *** (3)
+42           1       1.67     91.68    * (1)
+43           3       5.00     96.68    *** (3)
+45           1       1.67     98.35    * (1)
+55           1       1.67    100.00    * (1)
+
+-----------------------------------------------------------------
+
+Figure 1.
+Sample output of Data Description program.
+
+Finally, let's look a little closer at the frequency count and histogram sections of output. In the column labeled VALUE are listed all the values that the data elements have taken for that specific variable. COUNT represents the number of times that the data value to the left appeared in the data set. For example, there were 3 days when 19 cigarettes were smoked, 9 days when 29 cigarettes were smoked, etc.
+
+The % column shows us the percentage of data values that each count represents. For instance, 30 cigarettes were smoked per day on 6.67% of the days of the study. The CUM. % column tells us the cumulative percentage, i.e., the total percentage for that data value plus all other smaller data values. Thus, 41.68% of the time, 31 or fewer cigarettes were smoked per day.
+
+The column HISTOGRAM OF FREQUENCIES is our bar graph corresponding to the obtained data values. It is simply a pictorial representation of the count for each data value, using asterisks. Each asterisk stands for one count of data (up to a maximum count of 85). Any count greater than 85 will be shown by 85 asterisks in a string. Note, however, that the actual count is enclosed in parentheses following the string of asterisks. In most instances, since you are limited to 225 cases per variable, the 85 asterisk limit will not be a problem.
+
+Program Operation
+
+Following presentation of the title page, you will be asked for a label (80 characters or less) for your output—line 110. It's usually best to make your title descriptive of your study or data set-for example, CASH RECEIPTS FOR THE PERIOD OF 04/01/82-06/30/82. Six months later when you look at your printout, you won't have to guess what the analysis covered.
+
+Next, you enter a date for the run. You must use an eight-character string for the date, as in 04/15/82 or 04-15-82.
+
+Now you will be asked: ENTER DATA FROM DISK (Y/N)? If you wish to analyze a previously saved data set as is or want to add more data to such a set, press Y. If you're entering all data directly through the keyboard, press N. If you press Y, the program goes to the Disk Read routine beginning at line 1630.
+
+After supplying the name of the data file, the Apple reads the number of variables (NVAR), the number of cases or subjects (N1) , the array of variable names (NAME$(1)) and the data set (A(I,J)). If you want to add more cases to the disk data set, answer Y (yes) to the appropriate question and indicate the number of additional cases when prompted. As long as the total number of cases does not exceed the program limit—225—the program will ask you to begin entering the additional data (line 380). If no additional cases were indicated, Data Description will move directly to the edit/review phase (line 460).
+
+If you answered N to the ENTER DATA FROM DISK (Y/N) query, you will be expected to indicate the number of cases, subjects and variable names. Note that the program checks for maximum and minimum allowable values for the first two and a maximum length of six characters for each variable name. Also, if you just press return when asked for each variable name, the program assigns a default value composed of the string VAR plus the variable number; e. g., VAR1, VAR2, etc. As indicated above, when data is read from the disk, this information is read at the same time so it need not be reentered.
+
+Keyboard data input is all performed on the fourth screen line. Both the subject number and variable name are clearly indicated. Whenever data input for a new subject (case) begins, you are prompted by a single beep—CHR$(7) in line 380. This way you can type the data values without constantly checking the screen to see when a new case starts. I find this helpful, but if you don't (or feel that it's annoying), simply rewrite the line as:
+
+380 FOR I=N1 + 1 TO CASE: HOME
+
+Ater data entry, if you would like to edit or review the data prior to analysis, press Y in response to the next question (EDIT/REVIEW THE DATA?). This program option lets you examine and/or change all of the data or selected cases. If you press A when asked (A)LL OR (S)ELECTED CASES?, you must review all data—a lengthy process when you have a large number of subjects. However, if you suspect errors in only certain cases, the S selection will speed up the review/edit process considerably.
+
+When reviewing all cases, you will be shown one case at a time and be asked to press: <ESC> TO EDIT; <RETURN> TO CONTINUE. Pressing the return key will move you to the next case. When you have been shown all cases, the calculations will begin. If you find one or more data values that were in error or you would just like to change, press the escape key. Then indicate the number of the variable that you wish to change (counting down from the top if yon did not use the default variable names; i.e., VAR1, VAR2, etc.).
+
+Finally, enter the new value for the variable. If you selected the wrong variable, simply reenter its original, correct, value. The screen will now be updated to show the effect of your change. You may continue editing the case, by pressing escape again. Press return when you wish to move to the next case.
+
+The Selected Cases editing mode operates in a similar manner, except that you must indicate the specific CASE# TO REVIEW (OR 0 TO END) prior to editing or reviewing each case. When you press 0, the analysis will begin.
+
+Analyses are performed one variable at a time. When finished for the first variable, the Apple will beep twice (line 1150) and you will be prompted to turn on your printer and press return. Line 1160 routes output to the printer (PR#1) and sets it to 132-column mode. Note that CHR$(15) is equal to a control-O, the command that sets an Epson printer in condensed print mode. CHR$(9) is a control-I. Make appropriate changes to this line if your printer card is in a slot other than number 1 or you use different control characters to set up 132-column printing.
+
+From this point on, you need not intervene in the process until all analyses are finished. The program will pause after printing the results for each variable. Don't be alarmed; it takes time to make all the necessary calculationsand the more cases, the longer the pauses.
+
+Finally, the program asks if you would like to save the data set to disk. If you do, press Y, and then name the data file when prompted. If you want to write over an old data file, reuse the same filename. Otherwise, pick any name you like, press return, insert a disk, and press return when you're ready to begin the save process.
+
+Error Handling
+
+In addition to screening for an appropriate range of responses when numeric input is required (e.g., lines 200, 210, 230, 240), correct length of character strings (e.g., lines 120, 130, 320), and allowable answers to questions (as in Y for yes or N for no), Data Description 2.0 has three major error routines, located between lines 2430 and 2680. The first one, beginning at 2430, screens disk read errors; the second handles disk write errors; and the third is a catchall, handling illegal data input and all other unspecified errors.
+
+The first line of the program (10) sets up the primary Onerr Goto routine and directs all such errors to line 2660. If any error occurs, the printer is shut off (PR#O)-assuming that it was on-and the variable ERR is set equal to the appropriate Applesoft or DOS error code (PEEK(222)).
+
+If the error code is 254 ("Bad Response to an Input Statement"), a short error message is flashed on the screen and you are given a chance to repeat the entry. This is intended to keep a bad data entry (for example, a number like 3L5 instead of 315) from abruptly ending the program.
+
+If any other type of error is detected, the program prints the error code and the line at which it occurred. I'm averse to disabling the control-C. As long as it remains intact (as it does in Data Description), you can abort the program without turning off the machine or pressing reset.
+
+If the initial data set is read from a disk file (routine beginning at line 1650), all errors are directed to the routine at 2460. Four main types of read-related errors are screened: (1) END OF DATA—often the result of opening and trying to read a nonexistent file; (2) FILE NOT FOUND; (3) SYNTAX ERROR—illegal filename; and (4) FILE TYPE MISMATCH—trying to read data from any file type other than a text file.
+
+Since most errors occur after the Apple has opened the file (often one that originally did not exist), the erroneous file is deleted and the user's disk ca~alog is displayed so the correct filename can be selected. The program then continues normally.
+
+After the disk read has been successfully completed, the Onerr Goto is reset in line 1780 to the main error-trapping routine at 2660. This routine remains in effect until all calculations and printing have been completed, and the user is asked if he/she wishes to save the data set to disk (line 1520).
+
+If so, the program moves to the disk save routine at 1870 and Onerr is set to 2530. Four types of write-related errors are screened: (1) WRITE PROTECTED—the write-protect tab is covered on the disk; (2) DISK FULL; (3) FILE LOCKED; and (4) SYNTAX ERROR—illegal filename. As with disk read errors, the display then tells you how to correct the error.
+
+Printer Modifications
+
+In general, you need change only a few lines to allow Data Description to run with an 80-column printer-some pokes, the length of the histogram strings and the Printer On command.
+
+120 IF LEN(TITLE$)>65 THEN 110
+1160 PR#l: PRINT CHR$(9) +"80N"
+1330 DOT= CT(I) : IF CT(I)>33 THEN DOT=33
+1490 PRINT: FOR I=1 TO 80: PRINT "—";: NEXT I: PRINT: PRINT
+1580 ...POKE 36,79...
+1590 ...POKE 36,74...
+1600 ...POKE 36,71 : PRINT DT$
+
+To create a screen-only version of Data Description 2.0, you have two choices: eliminate the histogram routines, or modify the program so that the histogram prints on the screen separately from the statistics (as the second page for each variable).
+
+For those of you with "math anxiety," perhaps access to a program like this will help ease the pain in your future dealings with numbers. An examination of the descriptive statistics for your data set is an essential first step in getting a feel for what it all means. Once you are comfortable with these simple statistics, you can begin to explore regression, analysis of variance, T-tests, factor analysis...
+
+References
+
+Nie, N., Hull, C., Jenkins, J., Steinbrenner, K. and Bent, D. SPSS: Statistical Package for the Social Sciences, 2nd Edition. New York: McGraw-Hill Book Company, 1975.  
