@@ -1,0 +1,354 @@
+Apple Instructions I
+
+by Dan Bishop
+
+The previous two articles in this tutorial series described in depth the use of variables and arrays in Basic programs. Although several examples were provided in those articles to illustrate the concepts, it was impossible to avoid using several Basic instructions that I hadn't yet covered. I hope that you are still with me! This article will initiate a series exploring the various instruction statements that make up Basic. As before, I'll include relatively simple examples and then conclude with one or more advanced examples that may find general use as parts of more sophisticated applications.
+
+This month, we'll deal with the For/Next/Step instruction set and the Read/Data/Restore input statement set. With these as background, you can get up a simple computer date book program in which the database (that is, the list of appointment, dates and times) is actually written into the program. Although this is not the most efficient technique for the inexperienced operator to handle, it will present no problem at all for you, the programmer. This method has the additional advantage of not requiring any tape or disk data file manipulation, keeping the program relatively simple. I will also demonstrate how to trick the Apple into doing only a partial Restore to some point in the middle of the Data statements.
+
+Constructing a Loop
+
+One of the greatest advantages in using a computer comes from its ability to carry out the same type of operation over and over again. Although you could repeat the instructions in the program, line by line, as many times as necessary to repeat the specific operation, it is much simpler to write the instruction set that carries out the desired operation only once and then tell the computer to jump back to the beginning of that instruction set each time the operation needs to be repeated.
+
+To do this, you will need to define some variable, such as I, to serve as a counter. The counter is given an initial value of 1. Each time you jump back, or loop back, to the beginning of the instruction set, add 1 to the value of I, and then test the new value of I to determine whether the desired number of loops have occurred yet.
+
+If they have, the program will not loop back but will proceed on with the rest of the program. If the value of I remains less than the required number of operation reiterations within the loop, the program will jump back yet again. Figure 1 shows two common methods for flowcharting this type of instruction sequence, using 25 as the number of times we wish to repeat the instruction set.
+
+*** Figures 1a and 1B are images. See the files in reference_images for more info. ***
+
+Here's a simple example. Suppose you want to define a string A$ to use in a program printout that merely produces a double line across a 132- column page. Such a line would be useful in a table of data to separate the body of the table from the column headers at the top of the page. The following program, with 133 program lines, could accomplish this task. At the end of this program segment, A$ would contain 132 = signs.
+
+500 B$ = "="
+501 A$ = B$
+502 A$ = A$ + B$
+503 A$ = A$ + B$
+504 A$ = A$ + B$
+:
+:
+632 A$ = A$ + B$
+
+Notice in this example that the same operation, adding B$ (a single = sign) to the current value of A$, is carried out over and over again. Furthermore, we know exactly how many times the process must be repeated to achieve the final string of 132 = signs. This is all you need to know to set up a simple loop. The following program accomplishes the same task as above, but saves considerably in wear and tear on our typing fingers and patience (not to mention the savings in program memory).
+
+500 B$ = "=""
+510 A$ = " "
+520 I = 1
+530 A$ = A$+B$
+540 I = I+1
+550 IF I<=132 THEN GOTO 530
+560 ........etc
+
+Reducing 132 program lines to six makes programming a lot easier.
+
+Take note in the above example of the following elements. In lines 500 and 510, the variables used within the loop (lines 530 to 550) are initialized before the loop is encountered. In line 520, a variable is defined to serve as a loop counter, and it too is given an initial value. The loop is then entered and the instruction set to be repeated (in this example, only line 530) is carried out.
+
+Finally, at the end of the loop, two things occur. The counter is incremented the desired amount, and its new value is compared with the specified maximum value to determine whether to repeat the loop or go on with the rest of the program.
+
+Basic provides a unique command that further simplifies this type of task. The For/Next/Step commands take care of all of the bookkeeping and comparisons automatically. The above example would look like this if the For/Next/Step commands were to be included.
+
+500 B$ = "="
+510 A$ = " "
+520 FOR I = 1 TO 132 STEP 1
+530 A$ = A$ + B$
+540 NEXT I
+550 ..... etc
+
+As before, the variables A$ and B$ are initialized before the loop is encountered. But the first command within the loop, line 520, does four things in one command line. Line 520 defines the variable to use for a loop counter (I), the initial value that I should have (1), the maximum value I should obtain before leaving the looping process (132), and the increment that should be given to I each time the loop is processed (STEP 1).
+
+Following this is the instruction set that defines the repetitive operations to be carried out (line 530). The end of the loop is signified by line 540, NEXT I, which, as far as the computer is concerned, is the equivalent of lines 540 and 550 in the previous example. Both examples would have the same flowchart.
+
+Careful study of these diagrams will bring to light one interesting feature of the For/Next operation. The comparison is made when the Next instruction is encountered. This means that the instructions within the loop will always be carried out at least once, even if the loop counter is already out of the range specified by the limits.
+
+If the Step instruction is omitted from the For/Next loop, the computer will automatically assume that you want it to be 1 and will increment the loop counter by one for each pass through the loop. It is also not necessary to specify the variable after the Next statement, but in doing so you can prevent some serious problems in more complex situations. In choosing a variable to use as a loop counter, you must use a real variable name; attempts to use an integer or string variable name (I% or I$) will result in an error. The values used to specify the range through which the loop counter is to operate may be integers, real numbers (with decimal fractions), variable names, or mathematical expressions that evaluate to an appropriate numeric value.
+
+In some cases, it will be desirable to run through a loop in which the loop counter is initialized at a maximum value and decremented to a minimum value. The format for the command is the same as above; the only difference is that the Step function is expressed as a negative, and the loop is continued until the value of the loop counter is less than the minimum limitation set in the For statement. Such a command might look like this:
+
+FOR JJ=233 TO 18 STEP -3
+
+Quite frequently, the value of the loop counter at any particular pass through the loop will be important in the loop operations as well. Listing 1, which moves a yellow spot back and forth across the screen, demonstrates this.
+
+
+10 HOME
+20 GR
+30 FOR H=0 TO 39
+40   GOSUB 100
+50 NEXT H
+60 FOR H=39 TO 0 STEP -1
+70   GOSUB 100
+80 NEXT H
+90 GOTO 30
+100 COLOR=13
+110 PLOT H,12
+120 COLOR=0
+130 PLOT H,12
+140 RETURN
+
+Listing 1. Demo program.
+
+
+Since the horizontal cursor position limits set by the Apple are 0 to 39, these two limits are used to define the loops in lines 30 and 60. Since the operation that is carried out is the same whether you're moving the dot from left to right (lines 30-50) or from right to left (lines 60-80), the four lines of instruction that actually display and erase the dot are written only once and used as a subroutine (lines 100-140).
+
+Within each loop, the only instruction that occurs is a jump to the subroutine, and the Return statement sends the computer back to within the loop it jumped from. Notice that the loop variable, H, is used twice within the subroutine to specify the spot's current horizontal position.
+
+More commonly, the loop variable finds itself used within the loop as a subscript for some array variable. For example, suppose you had 200 names stored in memory in the array NM$, from NM$(1) to NM$(200). In order to print a list of these names, you'd set up a simple loop and use the loop counter as the subscript. Each pass through the loop would result in the printing of the next name on the list, since the loop counter (and subscript) is different with each pass.
+
+1500 FOR L = 1 TO 200
+1510     PRINT L;". ";NM$(L)
+1520 NEXT L
+
+In this example, the loop counter is also used to number the names as they are printed. A sample of the resulting display (or printout) might look like this:
+
+55. HARRY JONES
+56. JOHN JACKSON
+57. ANNE SIMMS
+
+You might have noticed one other characteristic of the listings shown above. The entire set of instructions that appears within a loop (between the For statement and the Next statement) has been indented for clarity. This is common practice to aid in reading computer listings, but is not at all necessary for the proper functioning of the program, In fact, the Apple will alloW you to type in those spaces, but will ignore them as the instructions are sent to memory. When you subsequently list the program, the indentations will have disappeared.
+
+How to Get Out of a Loop
+
+There are occasions when it is necessary to make a hasty premature exit from a loop. Suppose for instance that you're scanning through the list of 200 names, looking for SUZY HOPKINS. Once you have found that name, and know what value the subscript has for NM$(L) to correspond to SUZY HOPKINS, you want to proceed on with the next task. But you're trapped inside of a loop which, come hell or high water, is going to cycle through 200 comparisons. If L = 3, then that's 197 more cycles through the loop than needed.
+
+What you can do, and what, unfortunately, is commonly done, is to simply jump out of the loop with a Goto statement:
+
+IF NM$(L) = "SUZY HOPKINS" THEN GOTO 2000
+
+The problem with this approach is that the computer will never realize that you have left the For/Next loop. Whenever the For instruction is encountered, the computer must set aside some memory space for bookkeeping. Among the items that it must keep track of are the address of the first instruction in the loop (so that it knows where to loop back to after each completed cycle), the current value of the loop variable, the maximum value for the loop variable, and the step value. If you don't complete the natural loop cycle, all of these values will remain in memory, cluttering the computer's mind. Eventually all of the memory reserved for keeping track of the For/Next loops will be filled and the program will crash with an OUT OF MEMORY error.
+
+To avoid this problem, and neatly close the books on the current For/Next while escaping from its clutches at the same time, use a second variable to hold the loop variable's needed value, and then reassign the loop variable to the maximum value it would eventually achieve if left on its own. The following program sequence will illustrate this approach.
+
+1600 FOR L = 1 TO 200
+1610     IF NM$(L) < > "SUZY HOPKINS" THEN GOTO 1650
+1620         LL = L
+1630         L = 200
+1650 NEXT L
+
+In this example, when a match for SUZY HOPKINS has been found, the value that the loop variable (and subscript) has is assigned to the variable LL. Then the loop variable is set to the loop limit, 200, forcing the loop to end normally when line 1650 is next reached. At that point, the computer will clear all of the bookkeeping data for this particular loop off the memory stacks, and you need never worry about it again.
+
+Some Basics have an instruction, such as POPN, which automatically clears a For/Next from the memory stack without having to follow the procedure recommended above, but this feature is not available in Applesoft.
+
+Nesting For/Next Loops
+
+Frequent situations arise in which a loop must be constructed within another loop. This is called "nesting," and a case that involves only two loops is referred to as being nested "two deep." Different Basics have different limitations on how deep For/Next loops may be nested. For Applesoft Basic, you are allowed to nest 10 deep, which is probably more nesting than you will ever need.
+
+The only rule that must be followed when nesting For/Next loops is that each loop must be entirely self-contained. No overlap of loops is allowed. What this means is that, if the innermost loop is using K as the loop counter, then the Next K instruction must come before any of the Next statements that close the other loops. If J is the outermost loop counter (that is, if FOR J =...TO... is the first For statement in the nested group to be encountered), then the Next J instruction must be the last Next relating to the nested group. Violation of this rule usually results in a NEXT WITHOUT FOR error.
+
+The example in Listing 2 illustrates this feature. A three-dimensional array is set up having dimensions 4 x 4 and four "pages" deep. Then, using a nested For/Next group that is three levels deep, each element in the array is given a unique value based on the current values of the loop counters. In order to visualize what has happened, each two-dimensional page of the array can be displayed.
+
+10 HOME
+20 DIM A3%(4,4,4)
+30 FOR I=1 TO 4
+40     II = I*100
+50     FOR J=1 TO 4
+60         JJ=J*10
+70         FOR K=1 TO 4
+80             A3%(I,J,K)=II+JJ+K
+100        NEXT K
+110    NEXT J
+120 NEXT I
+200 HOME
+210 INPUT"VIEW WHICH PAGE? (0-4)...";P
+220 IF P<0 OR P>4 THEN GOTO 200
+230 IF P=0 THEN GOTO 340
+240 PRINT
+250 FOR I = 1 TO 4
+260     FOR J = 1 TO 4
+270         PRINT A3%(I,J,P);"  ";
+280     NEXT J
+290     PRINT
+300 NEXT I
+310 PRINT
+320 INPUT"PRESS <RETURN> TO CONTINUE...";X$
+330 GOTO 200
+340 END
+
+Listing 2. Demo program using For/Next loops
+
+
+This program produces three-digit numbers in each of the array elements, with the first digit cone- sponding to the row number, the second digit corresponding to the column number, and the third digit to the page number. Note that lines 30-110 contain three nested loops, with each loop being closed with a Next in the reverse order in which it was introduced with the For statement. In this way, the loops are kept from overlapping. Figures 2 and 3 depict flowcharts for this program which clearly demonstrate this principle. The program could be simplified by combining lines 90-110 into the following instruction:
+
+90 NEXT K, J, I
+
+The order of appearance of the loop counters in such a combined statement is the same order that they would have if separate Next statements had been used.
+
+*** Figures 2 and 3 are images. See the files in reference_images for more info. ***
+
+Read/Data/Restore
+
+The simplest way to get information into the computer for the program to work with is to incorporate that information as part of the program itself. In that way, once the program has been loaded into the computer, so has the data that the program is to use. There is no need to worry about disk files, Field statements, random or sequential access, or the integrity of your data if using cassette files. Furthermore, the program can obtain the data much faster if the computer doesn't have to search cassette or disk files for the information.
+
+The obvious disadvantage lies in the fact that it is more cumbersome to deal with additions or changes in the data set, especially if there is a lot of data to be entered. Since the data is actually part of the program, any alterations to the original data set must be made by someone who knows something about programming. In other words, using Data statements to store information within the program itself is the least "user friendly" approach to handling such information. This is no problem if it is your own program you are dealing with and the actual amount of information involved is limited.
+
+When the computer encounters the Data statement within a program, it treats everything that follows the word DATA in that program line as program information; no processing instructions belong in that line so the computer skips that line and proceeds on to the next program line. More than one data element may be contained within a Data line, but each element must be separated from the others by a comma.
+
+Literal data, or nonnumeric data, need not be enclosed within quotation marks in Applesoft, although this is not true for all Basic dialects. An exception occurs if one of the characters within the data element is a comma or if the dement begins or ends with blank spaces. The following example of a Data statement illustrates these rules:
+
+DATA 3.155, 12, MARY, JIM, "BOULDER, COLO.", " FIVE "
+
+You may use as many Data statements within a program as you desire. The computer will read the data elements sequentially from the first element that appears within the program to the last, regardless of where the Data statements are physically placed in the program. For example, two Data statements may be placed at the beginning of the program, one may appear in the middle, and five may show up at the end. The computer will still read the Data elements in proper sequence.
+
+Although a program may have plenty of Data statements, unless the computer is told to read the data it will totally disregard the information. The Read instruction is used to accomplish this task. (At last! Something that makes sense.) The Read command must be followed by a variable name (such as A, X$, R1%, etc.) or a variable name list in which the names are separated by commas.
+
+The only restriction is that the variable name's type must match the type of information that will be encountered in the Data list. A TYPE MISMATCH error will result if an attempt is made to match a literal data element with a numeric variable. Recalling that the data elements will be read in exact sequence, you'll see that it's easy to match string variables in the Data statements to string variable names in the Read commands.
+
+The computer will get very upset if it is asked to read more elements than you have provided with Data statements. An OUT OF DATA error will occur and your program will crash. Be sure that the number of Data elements included in your program equals or exceeds the number of Read variables your program uses. Of course, if there are more Data elements than Read variables, the extra Data elements are simply never read and therefore never used.
+
+An interesting command of rather limited use as supplied by Applesoft (and several other Basics) is Restore. Whenever the computer uses Read/ Data commands, it keeps track of the address of the memory location that contains the first character of the next Data element to be read. Thus when a Read is encountered, the computer knows exactly where to look for the desired Data element.
+
+When that element is actually read, the pointers (memory address values) change so that they point to the next Data element in sequence, awaiting the next Read instruction. Restore merely resets these pointers so that they again point to the first Data element in the entire program. In this way, a set of Data may be read over and over again.
+
+Restore is used after the last Data element has been read so that the next Read statement will read the first Data element again. Restore is a one-word command that is, by itself, a complete instruction statement.
+
+Unfortunately, it is more helpful to be able to Restore the computer's pointers to some Data element other than the first one in the program. Some Basics (such as DEC's and the IBM PC's) allow you to include a program line number after the word RESTORE. In this way the Restore can be used to set the pointers to any particular Data line within the program, allowing for a great deal of flexibility.
+
+To accomplish a partial Restore in Applesoft, you must be a little sneaky. First, identify which Data element(s) you may later wish to jump back to with this partial Restore. Then, just before the program is to read that Data element for the first time, pry open the computer's memory and peek at the memory addresses contained in the Read/Data pointers at that instant; save those addresses for future reference.
+
+Then, when it comes time to Restore back to that particular Data element, you can again pry the lid off the memory and poke those previously saved addresses back into the Read/Data pointer locations. The computer never suspects a thing (assuming the operation was a success) and the next Read command will read the desired Data element.
+
+If you need to make several such partial Restores, it may be useful to set up a small array dedicated to storing the memory addresses to be used in each partial Restore operation. How to obtain these addresses is described in the next section, along with two useful Basic commands—Peek and Poke. These two commands are the programmer's scalpels, used to expose and alter portions of computer memory.
+
+Peeking and Poking Previous Peeks
+
+With a PEEK(###), where ### is some number that represents a memory address within computer memory (RAM or ROM), you can find out exactly what byte value (0 to 255) is stored in location ###. In Command mode, you can do this with the complete instruction, PRINT PEEK (###). In order to see the sequence of codes between memory addresses 1 and 10000, try the following short program:
+
+10 HOME
+20 FOR I= 1 TO 10000
+30     PRINT I, PEEK(I)
+40 NEXT
+
+In order to obtain the Read/Data pointers from RAM, you need to know the addresses within RAM where Basic stores this information. It turns out that four addresses must be peeked in order to obtain the current Data pointer address value. These addresses are 123, 124, 125 and 126.
+
+The following line of Basic code will store the values currently contained in these addresses for future use in our partial Restore operation:
+
+FOR P=0 TO 3: P(P)=PEEK(123+P): NEXT P
+
+The four pointer addresses are stored in P(0), P(1), P(2) and P(3). This line of Basic code should be placed immediately prior to the Read statement in which the desired Data element is read. If your program is to have several partial Restore operations, you may wish to use a two-dimensional array, P(i,j), in which j refers to the specific Restore operation, and i ranges (as above) from 0 to 3.
+
+Once the pointer addresses have been saved (in the P(i) array), whenever you want to do a partial Restore back to that specific Data element, all you need do is poke the values saved in the P(i) array back into the appropriate RAM addresses, 123, 124, 125, and 126. This must be done just before you want to execute the Read statement for that data element. The following line of code handles this operation:
+
+FOR P=0 TO 3:POKE 123+P,P(P): NEXT P
+
+The Poke command (which works only with RAM, of course) requires two arguments. The first is the RAM address into which you want to poke a specific value (0 to 255). This is followed by a comma, and then by the value to be poked. From this point on in the program, the Data elements will be read in sequence starting with Data elements that you chose to partially Restore to.
+
+Weekly Appointment Date Book
+
+The short program shown in Listing 3 sets up a datebook for a single week. The actual appointments are entered as Data elements within the program, and are entered in pairs with the first element corresponding to the time of the appointment, the second to a description.
+
+
+10  REM   DATEBOOK PROGRAM
+11  REM   BY DAN BISHOP
+12  REM   CUSTOM COMP
+13  REM
+20  DIM P%(3,7)
+30  FOR J = 1 TO 7
+40  FOR I = 0 TO 3
+50 P%(I,J) = PEEK (123 + I)
+60  NEXT I
+70  READ D$,N
+80  IF N = 0 THEN GOTO 120
+90  FOR K = 1 TO N
+100  READ TM$,AP$
+110  NEXT K
+120  NEXT J
+200  HOME
+210  INPUT "WHAT DAY?  (1-7 FOR SUN—SAT; 0 TO END)";N%
+220  IF N% < 0 OR N% > 7 THEN GOTO 200
+230  IF N% = 0 THEN GOTO 9999
+240  HOME
+250  FOR I = 0 TO 3
+260  POKE 123 + I,P%(I,N%)
+270  NEXT I
+280  READ D$,N
+290  PRINT D$":  "N" APPOINTMENTS"
+300  PRINT
+310  IF N = 0 THEN GOTO 360
+320  FOR K = 1 TO N
+330  READ TM$,AP$
+340  PRINT ,TM$,AP$
+350  NEXT K
+360  PRINT
+370  GOTO 210
+1000  DATA  SUNDAY
+1001  DATA 0
+2000  DATA  MONDAY
+2001  DATA 0
+3000  DATA  TUESDAY
+3001  DATA  0
+4000  DATA  WEDNESDAY
+4001  DATA  0
+5000  DATA  THURSDAY
+5001  DATA  0
+6000  DATA  FRIDAY
+6001  DATA  0
+7000  DATA  SATURDAY
+7001  DATA  0
+9999  HOME : END
+
+Listing 3. Applesoft listing for a simple appointment calendar date book program.
+
+
+Each day of the week contains not only the day's name, but also the total number of appointments entered for that day. Consequently, every time a new appointment is entered into the date book, the appointment number for that day must also be updated in order for the program to function correctly.
+
+A two-dimensional array is used to keep track of the Read/Data pointers for each Data element that corresponds to the beginning of a particular day's Data entries. Whenever a particular day is selected, the four pointers corresponding to that day are poked into memory so that the Read instructions will read only that day's information.
+
+Although this program deals with a single week's appointments, you could, with a little imagination, expand it to encompass a longer period of time.
+
+An alternative approach would be to save the program as Blank Calendar. Then, when an appointment needs to be entered into a week, load Blank Calendar, enter the data for the appointment (and change the number that represents the total number of appointments for that day), and then save the calendar program using the date range for the week as the program name.
+
+For example, use SAVE OCT 5-11. Each week would be saved onto disk with a different name, available for immediate recall and use. Use RUN OCT 5-11 to view the calendar for that week. Use LOAD OCT 5-11 to load the program for inserting new appointments.
+
+To add appointments to your calendar once the appropriate program has been loaded, type in LIST 1000, 1999 for Sunday, LIST 2000, 2999 for Monday, etc., for the particular day you need. Then enter a new Data line, which contains the time and description for your new appointment.
+
+For example, if you make an appointment at 2:30 on Wednesday with the bank president to refinance your computer equipment, you'd do a LIST 4000, 4999. Now if you had two appointments already entered for that Wednesday, you might see something like the following:
+
+4000 DATA WEDNESDAY
+4001 DATA 2
+4010 DATA 9.45, DENTAL CHECKUP
+4020 DATA 4.15, IRS AUDIT
+
+(Obviously, Wednesday is going to be a very bad day!) Since your 2:30 appointment comes between the 9:45 appointment and the disaster at 4:15, you would enter the new appointment by typing in line 4015 as follows:
+
+4015 DATA 2.30,BANK PRES. FOR LOAN REFINANCE
+
+Note that you must not use commas or colons in the Data statement. The time is therefore entered as a decimal number.
+
+You must also type in line 4001 to change the number of listed appointments from 2 to 3:
+
+4001 DATA 3
+
+Now save the altered program, using the same name used before to load the program (unless, of course, this is the first appointment to be entered for the week). The appointment has been entered into your date book.
+
+If you have occasion to delete an appointment, follow the same technique except that, instead of typing in a new line number followed by the appointment information, simply type in the line number to be removed and press return. That data line will be removed from the program. Of course, you must be sure to change the Data line listing the number of appointments for that day.
+
+To edit the information in a Data line, it is simplest to retype the line with the corrected information. If you are familiar with Applesoft editing techniques, use those procedures. In this case, since you are neither adding an appointment nor deleting one, the "number of appointments" Data element does not need to be changed.
+
+To use the program, simply do a Catalog command to view all the available programs on the disk (each program corresponding to a week). Select the desired week, and enter:
+
+RUN week name
+
+to run the program for that particular week. You will be asked to enter a number from 1-7 to select which day you wish to view, and on doing so, all of the appointments for that day will be displayed on the screen.
+
+As for the program itself, line 20 dimensions the array in which the Read/Data pointers are to be kept, and lines 30-120 determine what those pointers should be and stores them into the appropriate array elements.
+
+Elements P%(0,1)-P%(3,1) are determined immediately, before any Read instruction. These hold the pointers for your first Data sequence corresponding to Sunday in your Data list.
+
+Then read the day, D$, and the number of appointments currently entered for that day, N. If N is zero, then the next Data element will correspond to Monday's sequence, and these pointers will be stored in array elements P%(0,2)-P%(3,2). That is, the program will loop back to line 30 and pass through the loop again, with J=2.
+
+On the other hand, if appointments are listed for Sunday, then the program must read through those appointments until it gets to Monday's data before it can save Monday's pointers. Lines 90-110 take care of this.
+
+Nothing is done with the information being read at this time. The only purpose for this sequence is to find pointer values for each of the seven days of the week.
+
+Once your pointers have been stored in the 13%. array, the screen clears (line 200) and you're confronted with the prompt to enter a number (1-7) for the desired day. When you have done this, the appropriate pointers are poked into memory to set the Read/Data sequence to the desired spot in your list of Data elements.
+
+The day, D$, and the number of appointments, N, are Read and displayed, and then all of the appointments for that day are successively read and displayed. Finally, the program loops back to prompt you to again enter a number between 1 and 7 for the desired day, allowing you to view another day in that particular week.
+
+Conclusion
+
+The For/Next construction is an awesome Basic command that releases the power of the computer. The Read/Data instruction set provides a convenient means of organizing data input into a program. Although it is more commonly used for data that does not have to be altered frequently through successive uses, Read/Data does allow a simple program to handle some basic database management problems, such as keeping a simple record or date book, or setting up simple quiz programs, in which the Data statements contain paired elements consisting of a question and its correct answer.
+
+Next month, I will describe the If/Then statement, subroutines, the Gosub/Return and POP commands, and the notorious Goto command. In the meantime, keep those cards and letters coming! I have a round file beside my desk for all that hate mail and a square file for all the rest. Let's keep 'em both full!
+
+
+Address correspondence to:
+Dan Bishop,
+Custom Comp
+PO Box 429
+Buena Vista, CO 81211

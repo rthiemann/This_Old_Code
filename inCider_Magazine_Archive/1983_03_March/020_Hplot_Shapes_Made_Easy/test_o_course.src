@@ -1,0 +1,52 @@
+!LIST   1 HGR     EQU $F3E2
+   2 HPLOT     EQU $F457
+   3 HLINE     EQU $F53A
+   4 TEMPA     EPZ $9
+   5 TEMPX     EPZ $8
+   6 BASL      EPZ $FA
+   7 BASH      EPZ *FB
+   8           LDY #*9
+   9           LDX $7
+  10 HERE2     DEX
+  11           CPX #$0
+  12           BEQ THERE2
+  13           INY
+  14           JMP HERE2
+  15 THERE2    TVA
+  16           STA BASH
+  17           LDA #$0
+  18           STA BASL
+  19           LDA (BASL,X)
+  20           STA $6
+  21           INC BASL
+  22           LDA (BASL,X)
+  23           STA TEMPX
+  24           INC BASL
+  25           LDA (BASL,X)
+  26           TAY
+  27           INC BASL
+  28           LDA (BASL,X)
+  29           LDX TEMPX
+  30           JSR HPLOT
+  31           DEC $6
+  32 HL        JSR SUB1
+  33           JSR HLINE
+  34           DEC $6
+  35           BNE HL
+  36           RTS
+  37 SUB1      LDX #$0
+  38           INC BASL
+  39           LDA (BASL,X)
+  40           STA TEMPA
+  41           INC BASL
+  42           LDA (BASL,X)
+  43           STA TEMPX
+  44           INC BASL
+  45           LDA (BASL,X)
+  46           TAY
+  47           LDX TEMPX
+  48           LDA TEMPA
+  49           RTS
+  50           BRK
+  51           BRK
+  52           END

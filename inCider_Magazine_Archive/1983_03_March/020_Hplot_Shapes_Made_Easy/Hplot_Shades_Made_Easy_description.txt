@@ -1,0 +1,295 @@
+Fudge It!
+
+by Don Fudge
+
+A renowned expert puts graphics shapes at your fingertips.
+
+Hplot Shapes Made Easy
+
+At the end of last month's column, I promised to continue with some routines to accompany the Convert to Vector Shape program I'd just presented. These are two machine language routines with which to BLoad and display on screen block and Hplot shape tables.
+
+First I'll get a couple of preliminaries out of the way. To be able to save these routines you must input CALL-151 and 800: before you start typing them in. Then, to be able to run them you must POKE103,1: POKE104,64: POKE16384,0 in the disk's Hello program during booting.
+
+The block shape routine, called TestTb, appears in Listing 1. To save it after entering it into the machine type BSAVE TESTTB,A2048,L140. The A and L refer to address and length, respectively.
+
+
+*800.888
+0B00- A0 09 A6 07 CA E0 00 F0
+0808- 04 C8 4C 04 08 98 85 FB
+0810- A9 00 85 FA A5 FD 85 06
+0818- A2 00 A0 00 20 11 F4 A4
+0820- FE A2 00 B1 26 81 FA 88
+0828- 18 E6 FA D0 02 E6 FB C0
+0830- FF F0 04 C4 FF B0 EC C6
+0838- 06 A5 06 C9 FF F0 04 C5
+0840- FC B0 D5 60 A0 09 A6 07
+0848- CA E0 00 F0 04 C8 4C 48
+0850- 08 98 85 FB A9 00 85 FA
+0858- A5 FD 85 06 A2 00 A0 00
+0860- 20 11 F4 A4 FE A2 00 A1
+0668- FA 51 26 91 26 88 18 E6
+0870- FA D0 02 E6 FB C0 FF F0
+0878- 04 C4 FF B0 EA C6 06 A5
+0880- 06 C9 FF F0 04 C5 FC B0
+0888— D3 60 00 00
+
+Listing 1. Test Tb, the block shape routine.
+
+
+You will find Test O (Ca112048), the Hplot routine, in Listing 2. It is saved by typing BSAVE TEST O (CALL2048),A2048,L82.
+
+
+*800.852
+0800- A0 09 A6 50 52 00 00 00
+0808- 00 00 4C 04 08 98 85 FB
+0810- A9 00 85 FA A1 FA 85 06
+0818- E6 FA A1 FA 85 08 E6 FA
+0820- A1 FA A8 E6 FA A1 FA A6
+0828- 08 20 57 F4 C6 06 20 39
+0830- 08 20 3A F5 C6 06 D0 F6
+0838- 60 A2 00 E6 FA A1 FA 85
+0840- 09 E6 FA A1 FA 85 08 E6
+0848- FA A1 FA A8 A6 08 A5 09
+0850- 60 00 85
+
+Listing 2. Test O (Call2048) the Hplot routine.
+
+
+TestTb enables you to Xdraw or (after two pokes) draw block shapes from tables and, in addition, to scan areas of the hi-res screen and create block shapes. A block shape table consists of raw screen bytes stored in tabular form. A block shape is a hires screen display of the shape bytes in the positions relative to each other they had when the shape was created, but not necessarily at the original screen coordinates. We'll discuss block shapes more next month.
+
+Hplot Shapes
+
+An Hplot shape contains no raw screen bytes. It consists of two things: in the first byte, the number of coordinate sets the shape includes, and then, in groups of three, the coordinate sets themselves. Let's look at a triangular Hplot shape:
+
+*900:04 7A 00 21 5A 00 9F 9A 00 9F 7A 00 21
+
+This shape data appears as it would if you had just typed it into the Apple monitor (after first doing a CALL-151 to access the monitor). Notice there are four points in the triangle, but points one and four are both 7A 00 21. Obviously, we're dealing with a closed figure with the beginning and the end identical. When Test O (Call2048) processes this shape, it will see there are four points and draw a line from point three to point four (which is the same as point one).
+
+Why the 00 bytes? Why three sets of numbers when all we're after are the X (horizontal) and Y (vertical) coordinates of the points? Because the X coordinate takes two bytes to represent. The Apple's hi-res screen has a 280 by 192 resolution where X can be from 0 to 279 and Y can be from 0 to 191. Numbers of 256 or more require two bytes. If you used only nine tenths of the screen horizontally you could limit X coordinates to 1 byte by keeping them under 256. Many spritebased shape systems use only under-256 X coordinates for faster routines and a one third smaller coordinate set memory requirement. (See last month's column for a bit more on sprites.)
+
+Getting back to Test O (Call2048), this routine reads the first byte as the number of coordinate sets to expect, and sets a counter in location $6 equal to this number. Then it goes through the shape, reading coordinates and plotting lines from the first point to the second, the second to the third, and so on. The routine decrements (subtracts) by one the data in the counter ($6) after each point has been plotted. When the counter hits 0, the shape is finished.
+
+Source Code
+
+Refer to Listing 3 for the assembly source code for the Test O (Call2048) routine, created using Lisa. Temporarily skipping everything up to line 19, notice that we load the accumulator with the number-of-points data found at the base address BASL and then store the accumulator's data into $6 in line 20. (I could have called $6 COUNTR so others would understand my routine better.) Lines 21-29 load the necessary registers and termporary data holders (TEMPX) with the very first coordinate set's bytes. Line 30 runs the Hplot routine of Applesoft. It's the last time we'll need it, because from now on we'll draw lines only—something we could never do unless we first established a starting point.
+
+
+!LIST   1 HGR     EQU $F3E2
+   2 HPLOT     EQU $F457
+   3 HLINE     EQU $F53A
+   4 TEMPA     EPZ $9
+   5 TEMPX     EPZ $8
+   6 BASL      EPZ $FA
+   7 BASH      EPZ *FB
+   8           LDY #*9
+   9           LDX $7
+  10 HERE2     DEX
+  11           CPX #$0
+  12           BEQ THERE2
+  13           INY
+  14           JMP HERE2
+  15 THERE2    TVA
+  16           STA BASH
+  17           LDA #$0
+  18           STA BASL
+  19           LDA (BASL,X)
+  20           STA $6
+  21           INC BASL
+  22           LDA (BASL,X)
+  23           STA TEMPX
+  24           INC BASL
+  25           LDA (BASL,X)
+  26           TAY
+  27           INC BASL
+  28           LDA (BASL,X)
+  29           LDX TEMPX
+  30           JSR HPLOT
+  31           DEC $6
+  32 HL        JSR SUB1
+  33           JSR HLINE
+  34           DEC $6
+  35           BNE HL
+  36           RTS
+  37 SUB1      LDX #$0
+  38           INC BASL
+  39           LDA (BASL,X)
+  40           STA TEMPA
+  41           INC BASL
+  42           LDA (BASL,X)
+  43           STA TEMPX
+  44           INC BASL
+  45           LDA (BASL,X)
+  46           TAY
+  47           LDX TEMPX
+  48           LDA TEMPA
+  49           RTS
+  50           BRK
+  51           BRK
+  52           END
+
+Listing 3. Test O (Call2048) source file.
+
+
+Then we decrement the $6 counter in line 32 and run Applesoft's Hline routine in line 33, drawing a line from the last point plotted (or Hlined) to the new point loaded in the registers. By remembering the last point plotted and having the newest point loaded into its registers (the X and Y registers and the accumulator), Hline can always keep its line-drawing straight.
+
+Line 34 decrements the counter again, since we've just used up two points in drawing that first line, and line 35 checks to see if the counter is 0 yet. BNE means branch if the result of the last operation (in this case decrementing $6) is not equal to 0. BNE branches us back to 32 (labelled HL), and we keep making this loop until $6 is 0. Then we bypass line 35, and line 36 returns us to the program we came from before running Test O (Call2048). (In line 2010 of last month's Convert to Vector Shape program we CALL 2048 to run this routine. The routine's RTS in line 36 returns us to the program's line 2010, where we meet a return, since lines 2000-2010 are a subroutine from line 46.)
+
+Back at the beginning of Test O (Call2048), lines 1—7 label subroutines and data storage addresses for later use. Lines 8-18 are devoted to shape number resolution, set up as follows.
+
+Routines such as TestTb (see last month's column and also next month's) and Test O (Ca112048) reside between $800 and $8FF, so I start shape tables at $900, with possible extension up to $1FFF. (The next byte, $2000, is where hi-res page 1 starts.) I call a shape starting at $900 shape number 1, a shape starting at $A00 number 2—extending up to a shape number 23 that starts at $1F00. Since each $100 of memory is 256 bytes, each Hplot shape may be 256 bytes long. This is room for 84 coordinate sets, but you'll rarely need that many.
+
+If you desired an Hplot shape with even more coordinate sets you could fit 255 of them in $300 (768) bytes with a couple of bytes to spare. In this case, there would be no shape two or shape three, but only shape one and shape four, and so on. Incidentally, with my methods block shape number resolution (next month) has the same $900-$1FFF set-up, but no lim- it (except 5888 bytes in one shape, perhaps) on shape length.
+
+I set up this shape number resolving scheme for ease of operation. To create tables full of shapes you need only POKE 7, SHAPE NUMBER to tell your Apple which shape you want. Let's see how this works now.
+
+In line 8 we stick a 9 into the Y register to hold the shape address high byte. Line 9 gets the shape number (previously poked into $7) and puts it into the X register (LDX means load the X register). Line 10 decrements X, our shape number counter for indexing, then 11 compares X to 0. If X is 0, our shape number is 1 and we branch to line 15. If it's not 0, our shape number is greater than 1, so we increment Y in 13 and jump back to line 10, as specified in line 14.
+
+The code would be transportable and slightly faster if BNE were used in line 14, but it would also be more confusing for a novice to understand. Also, line 11 could be omitted, because BEQ automatically compares the last result to 0. But I left these lines alone because they add up to exactly three excess bytes of unneeded code, just room for a JSR to be inserted later. (JMP equals 3 bytes, BNE equals 2 bytes, CPX equals 2 bytes and JSR equals 3 bytes. JMP minus BNE equals one excess byte, and CPX minus CPX equals two excess bytes.) The reason I might want a JSR (equivalent of Gosub in Basic) is that shapes are often around 28 bytes long, but I allot each 256 bytes. A routine to JSR to, for allowing 4-8 shapes per page of memory (a page equaling $100), might be necessary in the future for memory economy.
+
+Now, incrementing Y in line 13 means the shapes' high byte starting address goes from $900 (start) to $A00 to $B00 to $C00, and so on, up to $1F00. The higher the number originally poked in $7, the greater the high byte of the Hplot shape starting address. This is because line 14 keeps jumping back to line 10 until line 12, discovering a 0 in the X register, sends us to lines 15 and 16, where the permanent shape starting address high byte gets stuck into BASH (base address high byte). In 17 and 18 we put 0 into the low byte, since we're starting at even pages ($900, $A00, and so on). If we were having four or eight shapes per page, we'd omit these lines or resolve the correct low byte here.
+
+For Adventurers
+
+This shape number resolution system is simple and fast, but many other systems are possible. Many types of Hplot shape drawing routines, such as animate, draw, edit and examine, are available in Avant-Garde's Hi-Res Secrets program. But for people who do adventure games, a special type of Hplot shape routine is needed—one that loads in a file and reads it and then creates a long series of Hplot shapes, according to the data read. Here's the basic outline of how this works:
+
+(1) BLoad the shape set.
+(2) Run the shape data through an algorithm that first reads the number of shapes.
+(3) The algorithm reads the number of points between which to draw lines in shape number 1.
+(4) It draws shape number 1 via the Hplot Shape Drawing routine.
+(5) Steps 3 and 4 are repeated as many times as there are Hplot shapes.
+
+Color-Filling
+
+However, the adventure game algorithm can't stop here. It needs to run color-fill routines to paint the line drawing scene just created. (Avant-Garde's Paint Master Scene Utility System contains all this and more.)
+
+Here's a mock scene file, so you can see how a file for color-fill scenes is constructed. (A simple scene with line drawings and color-fill data takes three disk sectors, while a complex one might take up to five sectors. Compare that to normal 33-34 sector binary screen pictures!)
+
+03 04 A1 00 09 03 01 09 01 00 9F A1 00 09
+04 45 00 85 98 00 85 98 00 00 45 00 85
+04 17 00 A7 29 00 A7 29 00 B9 17 00 A7
+
+This completes three shapes with four points each, but the scene table must finish with color-fill data.
+
+04 B7 00 91 08 05 01 07 C8 06 01 77 88 11 01 47 F8
+
+To recap, in the first three lines we have the multiple-Hplot-shape line drawing segment of the scene file and in the fourth the color-fill data. Study the first line. Notice it starts with 03. That's the number of shapes the program can expect to find. Next comes 04, the number of points in the first shape, followed by four coordinate sets designating X low, X high and Y. Then, in the second line, 04 means shape number 2 has four points also. (All three of these shapes are triangles, but that doesn't mean you must necessarily draw triangles. For a new Avant-Garde package called Follow the Dots Coloring Book I drew dozens of pictures of everything under the sun—hills, trees, houses, flowers, people, roads, planets, and so on. All are Hplot shapes.)
+
+The third line is like the second. The 04 means four points and it's followed by the point coordinate sets. The fourth line differs, however. Its first number designates the number of seed points—how many places at which you'll start the fill routine. Then comes all the necessary data for effecting four-color fills, each data set containing four elements (X low, X high, Y and the color table index byte).
+
+The first three elements are obviously where you'll be doing the color fill. But what about the fourth number? What does "color table index byte" mean?
+
+It means there's a table of 256 numbers stored from $C00 to $CFF and you'll index into this table ($C00,X) with the color table index byte in the X register. Or, in English, you'll add X to $C00 and go to the resulting address for color-byte data.
+
+You will, of course, need a utility for creating your color table—a utility that contains color-byte data for 32 different colors by choosing among hundreds of colors and patterns. This will make it possible to have hundreds of different color tables for various games, adventures and art projects (All these types of utilities and tables are available in Paint Master Scene Utility.)
+
+The reason there are exactly 32 colors is that each color needs 8 bytes for definition and 8 times 32 equals 256, which is one page—the limit I've given to color tables.
+
+Hi-Res Color Formation
+
+You're probably eager to find out how those 8 bytes translate into state-of-the-art hi-res colors. Well, here goes.
+
+For each color in the color table the color bytes are laid down in a kind of 4 by 2 pixel, like so:
+
+        _____________________
+        |    |    |    |    |
+4 X 2   ---------------------
+        |    |    |    |    |
+        ---------------------
+
+This format is followed all the way through a scene, filling the 4-byte wide by 2-line tall pixel of color up to a line barrier, then filling in a different direction. This continues until the routine has done the best it can to fill any bordered enclosure with the chosen color. For a clearer understanding of these color bytes notice the bit patterns in Table 1.
+
+Remember that a normal color pixel is 2 bits horizontal to each other.
+
+
+Color                      Color Bytes               Byte Values
+(green)          0001000 1000100 0100010 0010001     (8,17,34,68)
+                 0100010 0010001 0001000 1000100     (34,68,8,17)
+(light violet)   1110111 0111011 1011101 1101110     (110,93,59,119)
+                 1011101 1101110 1110111 0111011     (59,119,110,93)
+(yellow-grey)    1100110 0110011 0011001 1001100     (51,102,76,25)
+                 0011001 1001100 1100110 0110011     (76,25,51,102)
+
+Table 1. Hi-res color table bit patterns.
+
+
+Such a pixel can have four color possibilities: 00, 01, 10 and 11, which make black, green, violet and white, respectively, or Hcolors 0—3. By using every screen byte's high bit to signify a special color flag, Hcolors 4—7 become available. (5 is orange and 6 is blue, but 4 is only another black and 7 is only another white.)
+
+In the bit patterns, only the seven visible bits are shown. The color bit is absent. But the byte values tell the story anyway. Whenever a screen byte is greater than 127 in value, the color bit is on, while all values under 128 represent bytes with color bits off.
+
+Incidentally, whenever you put two or more color bytes with opposite color-bit settings next to each other horizontally, look out that neither spills into its neighbor, since a color bit affects all 7 bits of a screen byte. It's not possible to split orange and green colors in the same byte, nor violet and blue, nor violet and orange, nor green and blue. This phenomenon accounts for the color clashes occasionally seen in Apple pictures. To avoid this problem, have borders between clashing colors be at byte boundaries such as 7, 14, 21, 28. (Sprite shapes created with special types of graphics chips use no color bit and 8 bits per byte displayed to avoid such clashes.)
+
+To go on, once you understand the 2-bit-per-color-pixel concept, you're ready to make sense out of the binary screen byte listings in the table. A normal green line would be 0 1 0 1 0 1 0 1 0 1 0 1 0 1. It could be longer or shorter, but it must have alternating off and on bits. The values of the bytes in a green line are 42, 85, 42, 85, 42, 85, and so on.
+
+0 1 0 1 0 1 Green Byte
+32+8+2=42
+
+1 0 1 0 1 0 1 Green Byte
+64 + 16 + 4 + 1 = 85
+
+Don't forget that all screen bytes are displayed backwards relative to normal byte listings. Therefore a 1110000 byte will look like 0000111 on screen.
+
+You know about a normal green line now, so what about a line that alternates green and black pixels? Will such an arrangement create a dark green color (black plus green equals dark green)? No, because once you stack these lines on top of each other vertically, you'll get vertical green bars, not a dark green. However, it turns out that all you really need is a black/green alternation scheme in both horizontal and vertical directions—like this:
+
+00 01 00 01
+01 00 01 00
+00 01 00 01
+01 00 01 00
+
+The minimum successful pixel configuration appears in the 4 by 2 pixel listings a few paragraphs back. Such a wide pixel is needed because, while a 4-bit by 2-line pixel is all that's required to create the proper color, in practice the only way to repeat such a pixel over and over is to use 4 bytes rather than bits (4 bits times 7 visible dots per byte equals 28 bits equals 4 bytes). If that-seems confusing, it's discussed in more depth in Avant-Garde's Hi-Res Secrets Graphics Applications System.
+
+Color Demonstrator
+
+Listing 4 is a program that will give you an idea of your Apple's potential for great colors. Line 90 reads the byte value data necessary to create all the 4-byte configurations—that is the data from lines 81—82. Line 110 reads 140 combinations of the above configurations, consuming the remaining data. The rest of the program creates color rectangles of 140 different types, using various combinations of one 4-byte configuration above another 4-byte configuration.
+
+
+10 HGR
+11 POKE  —16302,0
+81 DATA 8,17,34,68,136,145,162,196,17,34,68,8,145,162,196,136,119,110,93,59,247,238,221,187,110,93,59,119,238,221,187,247,25,51,102,76,153,179,230,204,51,102,76,25,179,230,204,153,42,85,42,85,170,213,170,213,85,42,85,42,213,170,213,170
+82 DATA 127,127,127,127,255,255,255,255,0,0,0,0,128,128,128,128,34,68,8,17,162,196,136,145,68,8,17,34,196,136,145,162,93,59,119,110,221,187,247,238,59,119,110,93,187,247,238,221,102,76,25,51,230,204,153,179,76,25,51,102,204,153,179,230
+83 DATA 1,21,1,22,2,21,2,22,1,5,1,6,2,5,2,6,1,13,1,14,1,15,1,16,1,17,1,19,2,13,2,14,2,15,2,16,2,17,2,19,3,23,3,24,4,23,4,24,3,7,3,8,4,7,4,8,3,13,3,14,3,15,3,16,3,17,3,19
+84 DATA 4,13,4,14,4,15,4,16,4,17,4,19,5,25,5,26,6,25,6,26,5,13,5,14,5,15,5,16,5,17,5,19,6,13,6,14,6,15,6,16,6,17,6,19,7,27,7,28,8,27,8,28,7,13,7,14,7,15,7,16,7,17,7,19,8,13,8,14
+85 DATA 8,15,8,16,8,17,8,19,9,29,9,30,10,29,10,30,9,13,9,14,9,15,9,16,9,17,9,19,10,13,10,14,10,15,10,16,10,17,10,19,11,31,11,32,12,31,12,32,11,13,11,14,11,15,11,16,11,17,11,19,12,13,12,14,12,15,12,16,12,17,12,19
+86 DATA 5,6,6,7,7,8,5,7,5,8,6,8,5,5,6,6,7,7,8,8,13,13,13,14,13,15,13,16,13,17,13,19,14,14,14,15,14,16,14,18,14,20, 15,15,15,16,15,17,15,19,16,16,18,16,20,17,17,17,19,19,19,2,2
+87 DATA 1,1,3,3,4,4,28,27
+88 DIM C1(33),C2(33),C3(33),C4(33)
+90 FOR A = 1 TO 32: READ C1(A),C2(A),C3(A),C4(A): NEXT
+100 DIM B1(141),B2(141)
+110 FOR A = 1 TO 140: READ B1(A),B2(A): NEXT
+115 HCOLOR= 0
+116 N = 1
+117 FOR X = 0 TO 36 STEP 4
+120 FOR Y = 0 TO 179 STEP 13
+130 FOR A = 0 TO 10 STEP 2
+135 I = B1(N):J = B2(N)
+140 HPLOT 279,Y + A:AD = PEEK (38) + PEEK (39) * 256 + X
+160 POKE AD,CI(I): POKE AD + 1,C2(I): POKE AD + 2,C3(I): POKE AD + 3,C4(I)
+162 HPLOT 279,Y + A + I:AD = PEEK (38) + PEEK (39) * 256 + X
+165 POKE AD,C1(J): POKE AD + 1,C2(J): POKE AD + 2,C3(J): POKE AD + 3,C4(J)
+168 NEXT
+170 N = N + I
+180 NEXT : NEXT
+
+Listing 4. Hi-res color demonstration.
+
+
+Being in Basic, the program is slow, but the fill routines I use in all graphics packages are the fastest available. They're written in 6502 assembly and assembled into 6502 machine language via Lisa, and yes, the source codes are available.
+
+There are two common ways to fill: on black screens with white line drawings and on white screens with black line drawings. I've done routines for both.
+
+Adventure games rely on binary tables of scene data and machine language programs to read the data, draw the line drawings and fill the scene with color. Many adventure games on the market are boring because they spend too much time drawing scenes. My concept of a good adventure game is one in which the display techniques enhance, rather than limit, your enjoyment, so I've always concentrated on fill speed as priority number one when creating an algorithm.
+
+Drawing Hplot Shapes
+
+Now let's go on to Hplot shape creation. It's not difficult to write a program that handles this, since we're merely drawing shapes composed of lines and saving numbers (counts) of coordinate sets and the coordinate sets themselves. Notice that the Hplot shape drawing algorithm Test O (Ca112048) is loaded in early in the program in case you wish to retrieve and display any previously drawn shapes. Also, don't run this program unless ?PEEK(104) gets you 64. In other words, make sure the program that runs Hplot Shape Drawing does a POKE103,1: POKE104,64: POKE16384,0 before the running. This sets the start-of-program pointer to $4000, just above hi-res page 1. And leave HIMEM at default 38400.
+
+Now refer to Listing 5 for my Hplot Shape Drawing program. To run it, hit return on your way into the program to clear the screen. Choose option 4 to draw an Hplot shape, and read the resulting instructions. After making sure the paddles or joystick are attached, choose shape number 1. The paddles are for cursor control, button number 0 for line draw, and button number 1 to quit. When a shape is finished and you want to save it, input its number as the Last Shape Drawn. If the last shape is over 256 bytes long, use option 1, Give Number of Shapes, when you get to the two options after file name inputting. You can draw a table of up to 23 shapes before quitting.
+
+Next month we'll discuss block shapes, table look-up for speed, and simple page flipping.
+
+
+
+Address correspondence to:
+Don Fudge
+Avant-Garde Creations
+PO Box 30160
+Eugene, OR 97403
