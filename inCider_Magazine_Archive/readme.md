@@ -1,4 +1,4 @@
-This is an archive of the various coding projects from inCider Magazine, and Apple-focused magazine from the 1980's and 1990's. It contains a repository of old AppleSoft BASIC, Pascal, and even some assembly that comprised various projects published in those magazines.
+This is an archive of the various coding projects from _inCider Magazine_, an Apple-focused magazine from the 1980's and 1990's. It contains a repository of old AppleSoft BASIC, Pascal, and even some assembly that comprised various projects published in those magazines.
 
 An archive of nearly the entire magazine's run can be found on the Internet Archive ( https://archive.org/details/incidermagazine?tab=collection ). I have downloaded all available issues and am slowly working through transcribing the code and associated description articles into a plain text format easily readable by most computers.
 
