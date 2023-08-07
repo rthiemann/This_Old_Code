@@ -1,0 +1,77 @@
+Perpetual Calendar
+
+Need to know some significant fact about a particular date, Julian or otherwise? Then all you need do is enter and run this helpful program to get all the dates you'll ever need.
+
+by Robert Suder
+
+On what day was the Declaration of Independence signed? How many days have elapsed since man first landed on the moon, Jul y 24, 1969? What is the corresponding Julian date for August 21, 1981? What day of the year was May 23 , 1981?
+
+You can find the answer to these questions using the program listing and your Apple II.
+
+Background
+
+The first calendar was probably based on the lunar month, that is, from one full moon to the next. This was not very satisfactory because the interval is 29.5 days—in just a few years, the months didn't correspond to the actual seasons. Then, in 46 B.C., Julius Caesar developed a more dependable instrument, but even the Julian Calendar was less than accurate.
+
+The problem with inventing a calendar is that a solar yea r is not exactly 365 days; it's closer to 365.26 days. That leftover fraction of a day is why every fourth year is a leap year. Even though leap year is included, the Julian Calendar is imprecise, and throughout the years errors accumulated.
+
+Finally, in 1582, Pope Gregory XIII decided to drop ten days in order to bring the calendar back in step with the seasons.
+
+Now most of us use the Gregorian Calendar. All years exactly divisible by four are leap years, except the century years that are exactly divisible by 400. In 3000 years the Gregorian Calendar will be in error by less than one day.
+
+Because of the complexities of the civil calendar, the Julian Day Calendar was invented. It simply counts the number of days that have elapsed since January 1, 4713 B.C. Because the Julian Day begins at noon, fractional values will be obtained. Thus, the Julian date for August 12, 1981 is 2 444 828.5.
+
+The Program
+
+To determine the number of days between dates, first assign a value for each date, and then find the difference of the values. The values are computed using the equations on lines 6020 and 6040. Y is the year, M is the month and D is the day. The day of the year is determined using the equation on line 1080. If I=0, then the day is Saturday; if I=1, Sunday, etc.
+
+The subroutine beginning at line 5000 lets you enter the date in the form MM/DD/YYYY.
+
+I wrote the program for an Apple II Plus, but you should be able to run it on other computers with only minor changes.
+
+
+TASKS AVAILABLE
+
+1--DAY OF THE WEEK
+2--DAYS BETWEEN DATES
+3--DAY OF THE YEAR
+4-JULIAN DAY
+5--EXIT PROGRAM
+
+
+                          DAY OF WEEK
+                          --- -- ----
+FOR WHAT CALENDAR DATE DO YOU WANT TO DETERMINE THE DAY? ENTER
+IN THE FORM MM/DD/YYYY. THE YEAR MUST BE AFTER 1582.
+7/4/1776
+7/4/1776 IS A THURSDAY
+
+
+                      DAYS BETWEEN DATES
+                      ---- ------- -----
+WHAT IS THE FIRST DATE?  ENTER IN THE FORM MM/DD/YYYY
+THE YEAR MUST BE AFTER 1582
+7/24/1969
+WHAT IS THE SECOND DATE?
+3/15/1981
+THE NUMBER OF DAYS BETWEEN 7/24/1961 AND 3/15/1981 IS 4252
+
+                    NUMBER OF DAY IN YEAR
+                    ------ -- --- -- ----
+WHAT IS THE DATE?  ENTER IN THE FORM MM/DD/YYYY.  THE YEAR
+MUST BE AFTER. 1582
+5/23/1981
+5/23/1981 IS DAY 143
+
+                    JULIAN DATE
+                    ------ ----
+TYPE THE DATE IN THE FORM MM/DD/YYYY.  THE YEAR MUST BE AFTER 1582
+8/21/1981
+8/21/1981 IS JULIAN DAY 2444837.5
+
+Sample Run. Examples of what the program can do.
+
+
+
+Dr. Robert Suder
+(5839 Downing, Portage, MI 49009) is employed by the science department in
+the Portage Public Schools.
