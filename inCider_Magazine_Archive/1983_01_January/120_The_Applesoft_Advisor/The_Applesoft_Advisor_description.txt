@@ -1,0 +1,194 @@
+The Applesoft Adviser
+
+This and subsequent articles will provide a tutorial review of Basic. I plan to present material and examples that will suit novice programmers as well as some subroutines and techniques more sophisticated users will appreciate.
+
+by Dan Bishop
+
+So you've bought yourself an Apple. Now you're wondering if a microcomputer can do more than play games and run marginally useful business programs that must do until what you really need comes along. And play games.
+
+Congratulations on buying a microcomputer! And don't despair over the dearth of suitable software. Learn to write your own programs. It is easier than you think and you might find out that your business software meets your needs after all. A little Basic may be all you need to modify those programs so they operate exactly to your specifications.
+
+Just What Are Variables?
+
+When you meet someone new, you instinctively listen closely to the person's name, and make a point to remember the name, particularly if you anticipate future meetings. The name serves as a "tag" to identify that person. Should you spot him in a crowd and wish to attract his attention, you could call his name and hope he could hear you over the din.
+
+Now suppose several years pass, and you recognize him walking across the street. He has grown older, snowy-bearded and balding. He is definitely not the same person you remembered, yet when you call his name, he turns, crosses the street, and joins you for coffee at a nearby cafe.
+
+In a program, a variable is a name assigned to some quantity you wish to manipulate within the program. Not all such quantities need a variable name. For example, if the number 2.5 is used within a program only once, and its value never will change, then to assign it a name is unnecessary. Simply use the numeric digits, 2.5.
+
+On the other hand, suppose you enter the name "Walton's Widgets Inc." frequently throughout a program. Here is a likely candidate for a variable name, say WW$. (More about selecting names below.)
+
+Once you have assigned the value "Walton's Widgets Inc." to the tag WW$, then whenever you use WW$ anywhere in the program, the computer will come up with "Walton's Widgets Inc." This saves time writing the program, and memory space as well. Another advantage comes when you learn that Walton just sold his Widget factory to Wayne Green and the company name becomes "Green's Gidgets Inc." If we had not used WW$ to represent the company name, the name might need to be changed in two dozen places throughout the program. By using a variable name, you need only change what WW$ stands for.
+
+Most programs involve calculations that use numeric values that may change from one time to the next, or sometimes even change several times within the program itself. It would be impossible to write a program that allowed this sort of thing without using variable names. Suppose, for example, you are counting the number of paychecks printed in a payroll program. Let PC % be the "tag," or variable name, representing the number of paychecks. Before starting the printing process, the program will set the value of PC% to zero; then, as each paycheck is printed, it adds 1 to the previous value of PC% . In this way PC% is kept current, and, at the end of the program, it will contain the number that represents the total number of paychecks printed. A variable used in this type of application is called an accumulator or counter, and the instruction that accomplishes the incrementing function is simply:
+
+PC% = PC% + 1
+
+This formula reads: "To derive the new value for PC%, add 1 to the old value for PC%." This type of formula makes no sense in algebra (how can anything be equal to itself plus 1?), but in Basic the equal sign in an equation like this means "assign the result of the following calculation to the specified variable." Such equations are called assignment statements. The value for PC% in this example changes after each new paycheck is printed, but the computer doesn't care.
+
+Whenever PC% is called for in the program, the computer pulls out the current value of PC% and uses it. Just as your aging friend still responded to his name though he had changed through the years, the variable PC% still represents the paycheck count, even though its value changes as the program runs.
+
+Pick a Name
+
+The variable name you choose must reflect the type of information which the variable name represents. Two general categories of information can be stored by the computer: numeric (just plain old numbers), and string data (such as names, dates, and so on). Any variable name used for string data (sometimes referred to as alphanumeric data or literal data) must end with the dollar sign. In the example above we chose WW$ to represent the name of the company. The dollar sign was not optional.
+
+Numeric information consists strictly of numbers, with an optional + or - sign and a decimal point. The Apple allows you to represent numeric information in two different forms. If the value(s) represented by a given variable name will always be whole numbers (integers) with no decimal fractions, then the variable name should end with a percent sign, such as PC%.
+
+The example above matches the requirements for an integer variable, and consequently applies the percent sign as part of the variable name. Since denoting integer variables with the percent sign is optional, many programmers drop the notation. However, clearly specifying to the computer just which variables are for integer values saves memory space, and makes the program run faster and more efficiently. You should note that Applesoft does not allow the use of integer variables as counters in For...Next loops or in DEF statements.
+
+Numeric variable names that represent numbers that are not necessarily integers (real numbers) are given without any symbol following the variable name. Thus the value 5.62135 may be assigned to a variable name such as RZ. Real numbers require more memory space, so use real numeric variables sparingly. Some Basics allow two types of real numeric variables: single precision (denoted by an exclamation point following the variable name, such as RZ!); and double precision (denoted by a # following the variable name, such as RZ#). Applesoft II allows up to ten-digit precision for real numbers, so the lack of a double precision mode is probably insignificant unless you are dealing with the national debt!
+
+(Another feature of some Basics is a DEF function which allows the programmer to specify variable types en masse at the beginning of the program. For example, DEFINT L-Q would demand that all variables beginning with the alphabetic characters L, M, N, O, P or Q are integers (unless otherwise indicated by a $, ! or #). The Apple user converting a program from another system must watch for this feature.)
+
+We have seen that variable names may or may not have type identifiers at the end of the name. Now we need to determine what names are allowed. This varies from one computer to the next. It also depends on what level Basic you are using. In Apple Integer Basic you may use any combination of letters and numbers of reasonable length. The only restriction is that the first character in the variable name must be alphabetic.
+
+On the other hand, Applesoft Basic allows you the same latitude as Integer Basic concerning variable name length, but recognizes only the first two characters of your name and ignores the rest. Thus PAY, PART and PAY1982 will all be considered to be the same variable, PA. As with Integer Basic, the first character must be alphabetic. I prefer only one or two characters for variable names within a program. Although not quite as descriptive, it saves memory, and avoids my inadvertently using the same first two characters for two different variables.
+
+One other important restriction on the variable name you choose is that you must avoid using a Basic keyword. The computer would confuse your variable name with a Basic command. These forbidden words are called "reserved words," and a list of them can be found in the Applesoft manual on page 122. Using a reserved word as a variable name will produce a syntax error when you attempt to run the program.
+
+In fact, using a reserved word as any part of your variable name will cause problems. For example, the computer will read the IF in SPIF as a command keyword. You can avoid this problem by restricting your variable names to two characters. The few two-character keywords (IF, OR, FN, ON, AT, GR and TO) are easy to remember. Errors caused by using a keyword as part of a variable name are difficult to diagnose. It is seldom apparent when inspecting the problem line just what the problem really is. All common syntax problems can be tested, yet the program insists you have a syntax error in that line.
+
+Variable names with different type identifiers attached to them may appear in the same program without risk of confusion. For example, our payroll program could use PC% , PC$ and PC to represent three different items and the computer would track all three separately without problems.
+
+Variable Limitations
+
+String variables may be any alphanumeric character string, including most of the special characters. Usually the quotation mark is the only forbidden character for strings, since the quotation mark tells the computer where the beginning and end of the string of information are located. However, a string variable may not be longer than 255 characters. It may have zero characters as well.
+
+For example, ZZ$ = " ", where the two sets of quotes have no space between them, is a valid assignment statement, making the variable ZZ$ represent a null string. When assigning a value to a string variable, enclose the string of characters in quotation marks. Thus the statement NM$ = GEORGE WASHINGTON would produce a type mismatch error, while NM$ = "GEORGE WASHINGTON" would be acceptable.
+
+Integer variables are limited to representing values between -32767 and +32767. For those who may be interested in the reason for integer variables being limited by such odd numbers, you will note that 2 raised to the 15th power is 32768. Integers are represented by two bytes in the microcomputer memory, which correspond to 16 binary digits (bits). If one of these bits is used to represent the sign of the number, only 15 are left to represent the number itself, thus the limitation of ±32767.
+
+Real variables may have up to nine decimal digits. You are not limited to 999 billion, however. It merely indicates the degree of precision that such a number can have. The tenth digit will always be rounded and will not be displayed. For numbers greater than 999 billion, and smaller than 0.01, the computer uses exponential (or scientific) notation, expressing the number as some number times the appropriate power of 10.
+
+For example, 10 squared is 100, so 893.22 can be represented as 8.9322 times 10 squared, or 8.9322 E + 02, where the letter· "E" should be read "times ten raised to the ...power." Similarly, 1/1000 is 10 to the -3 power, so 0.003958 can be represented as 3.958 E-03. Using exponential notation, the computer can express numbers as large as 1.00 E+38 and as small as 1.00 E-38, with a precision of nine decimal digits. Such limitations should satisfy most earthbound humans!
+
+Clearing Variables
+
+As you might guess, a program that's been running for some time probably has a whole list of variables stored in its memory. You might reasonably ask whether the variables stored in one program could get in the way of the variables needed by a later program.
+
+The answer is that when you type the Run command to execute a program, all variables are reset to zero. Thus there is no chance for carry-over from one program to the next. Another Basic command, Clear, can be used within a program to accomplish the same task.
+
+Variables can also be used in immediate (or command) mode. Try this with your computer on and ready. Type in A=25 and press return. Now type in PRINT A, SQR(A) and press return. You should see the numbers 25 and 5 (the square root of 25) appear on the screen. Any time you are using a computer as· a calculator, you will find it very useful to store certain numbers as variables for later (or repeated) recall.
+
+String vs Numeric
+
+Numbers may be represented with either of the numeric variable types or with string variables. An important difference exists between the two representations. If a number is represented by a string variable name, it is taken as a literal-the computer will not recognize it as a number, and it will be interpreted as merely a string of characters. Such a representation may be suitable for zip codes, for instance. If you want to carry out any type of mathematical operation on the numbers, however, use a numeric variable name to represent the number. For example, the program line:
+
+A$ = "1.355":B$ = "2.8661": PRINT A$ + B$
+
+will print 1.3552.8661, since the numbers are represented by string variables and the + sign, when used with string variables, merely concatenates the two strings.
+
+Lining Up Decimal Points
+
+It is possible to convert numeric data to string information and back again, and on occasion this is useful.
+
+Some Basics have an output formatting instruction such as a Print Using instructio~in which the programmer can precisely specify the appearance of the printed output, allowing for numbers like 1.33, 2.8, 1000 and 0.01 to be printed in a column with all of the decimal points correctly aligned.
+
+Apple Basic does not have this capability, so you must convert all of the numbers to strings (using the STR$() function), then adjust the strings so that each literal numeric expression has the same number of characters to the left of the decimal point. You can best handle this using a defined function or a subroutine within the program. If you choose a subroutine, the same subroutine can also round all numbers to the desired precision before converting them to strings and carrying out the string manipulations.
+
+Suppose that X is the variable representing a dollar amount you're working with.
+
+10 D% =2
+11 X=INT(X * 1OAD% + .5)/INT(10AD% + .5)
+12 ZZ$ = STR$(X)
+13 Z$= "."
+14 Z%=0
+15 FOR I=1 TO LEN(ZZ$)
+16     IF MID$(ZZ$,1,1) = Z$ THEN Z%=I
+17 NEXT I
+18 IF Z% <>O THEN 21
+19     ZZ$=ZZ$+LEFT$(".0000000",D% + 1)
+20     GOTO 24
+21 IF LEN(ZZ$)-Z% = D% THEN 24
+22     ZZ$=ZZ$ + "0"
+23     GOTO 21
+24 ZZ$=RIGHT$("          "+ZZ$,10)
+25 RETURN
+
+The value stored in X has now been converted to a string variable ZZ$ of exactly ten characters (including padding spaces to the left) , with exactly two digits to the right of the decimal point.
+
+This short subroutine may be used in any program containing financial information. D o/o is assigned the yalue of 2, to represent the number of places to the right of the decimal point; two places should be reserved if the numbers are to be expressed in dollars and cents. The number is then rounded to the nearest cent, converted to a string using the STR$() function, ahd then, in line 16, the position of the decimal point is determined. This is necessary because a number such as 35.00 would be represented as simply 35, while 27.60 would be represented as 27.6.
+
+To produce numbers that always have two digits (including trailing zeros) to the right of the decimal point, you must determine if there is a decimal point and, if so, just where it is. The value of Z% will be 0 if there is no decimal point; otherwise it will tell us how many digits there are to the left of the decimal point, plus 1.
+
+This value is compared to the full length of ZZ$ using the LEN() function, and if it is found that there are fewer than D% digits to the right of the decimal point, a literal 0 is attached to the end of ZZ$ and the new ZZ$ is similarly evaluated. Finally, in line 24, ZZ$ is attached to the end of a string of ten blank spaces, and the rightmost ten characters are assigned anew to ZZ$. This effectively pads your literal number with as many blank spaces in front of the first digit as is necessary.
+
+In order to use this subroutine on a number represented as, say, PR, simply assign PR to X, (X=PR), and Gosub 10:
+
+X=PR
+GOSUB 10
+PRINT ZZ$
+
+You may wish to change the value assigned to D% in line 10 to allow for more than two places to the right of the decimal point. You may also change the number of blank spaces and the number of characters taken by the RIGHT$ function in line 24, particularly if you are dealing with different applications. In any case, the displayed results will look more professional with each number properly lined up in columnar fashion.
+
+Strings can be converted back to their numeric values using the VAL() function . For example, if X$ "3.14159", then X = VAL(X$) will assign the numeric value 3.14159 to the variable name X, so the value can be used in mathematical operations. This situation most commonly occurs as a result of an Input statement that requires the operator to type in a response to a displayed question. If the variable used with the Input statement is a string variable, (e.g., INPUT X$) , but the numeric information typed in must be evaluated as numeric data, then the VAL() function comes to the rescue.
+
+Another useful application of the VAL() function is in determining the month when a date has been entered in 8-byte form as MM/DD/YY. For example, if DT$ = "06/12/82", then DT = VAL(DT$) would assign the numeric value +06 to DT.
+
+Menu Selection Routine Made Easy
+
+Many applications programs are designed to be run by noncomputerists. Such programs are usually menu driven, which means that a list of options corresponding to the different program functions is displayed on the screen. The operator selects one option and presses the appropriate key. The program then branches to the routines that deal with the selected function.
+
+The branching instruction must be numeric, so many menus display the options with numbers, and the operator must press a number key to select a given option. There are two drawbacks to this approach. First, if there are more than ten options, the operator must press two number keys and the return key, requiring three keystrokes. The second difficulty lies in the fact that it is easy to accidentally hit the wrong key when all of the option choices are numeric.
+
+One way to avoid these problems and make program operation smoother is to use mnemonic letters for the responses. Thus the menu display in Figure 1 instructs the operator to press one of eight keys. The following subroutine will accept only the desired eight responses, ignoring any other keystroke. Furthermore, by using related alphabetic keys, the chance for mistake is reduced. You can respond to any of more than ten choices with a single keystroke.
+
+
+PRESS: <A> TO ADD ACCOUNTS    <D> TO DELETE ACCOUNTS
+       <E> TO EDIT ACCOUNTS   <V> TO VIEW ACCOUNTS
+       <P> TO PRINT ACCOUNTS  <M> TO RETURN TO MASTER MENU
+       <?>FOR HELP            <X> TO END PROGRAM
+__________________________________________________________
+CHOICE...
+
+Figure 1. Menu display using mnemonic option selection keys.
+
+
+The subroutine below will handle this situation well. But before using it, the following lines must be placed immediately after the series of print statements which set up the menu display in the first place.
+
+PRINT"CHOICE...";
+ZZ$ = "ADEVPM?X"
+GOSUB 30
+
+ZZ$ is a list of the acceptable responses. The subroutine which handles the keyboard response is:
+
+30 GET Z$
+31 Z%=0
+32 FOR I= 1 TO LEN(ZZ$)
+33     IF MID$(ZZ$,I,1)=Z$ THEN Z%=I
+34 NEXT I
+35 IF Z%=0 THEN 30
+36 PRINT"** ";Z$;" **"
+37 RETURN
+
+The Get instruction acts as an Input statement for a single keystroke, and responds immediately without the operator having to press return. Once a key has been pressed, the program proceeds to the next instruction. In this routine, a match is sought between Z$ and one of the characters in ZZ$. If no match is found, the program returns to the Get statement (line 35). If a match is found, then the selection is printed on the screen and the program returns to the instruction that follows the Gosub 30 instruction.
+
+The return is made with a numeric value, Z%, that corresponds to the selection in the order in which it appeared in ZZ$. Thus Z% = 1 if the selection had been A, Z% = 2 if the selection had been D, etc. On returning to the main program sequence, you can use a statement such as:
+
+ON Z% GOTO ....,....,....,....,....,....,....,....
+
+where each of the ellipses corresponds to the program line number to which the program should branch, based on the value of Z%.
+
+Incidentally, the loop in lines 32-34 can be replaced in some Basics by the INSTR() function. If you are converting such a program to Apple Basic, the INSTR() instruction equivalent to lines 32-34 above would be Z% = INSTR(ZZ$,Z$), with no loop necessary.
+
+A careful reader might have noticed a similarity between the two subroutines presented above. Lines 14-17 in the first example are identical to lines 31-34 in the second example. I did this to show that two seemingly different functions within a program might share common portions. Program length can be considerably reduced if the programmer takes advantage of these similarities, incorporating them into a single subroutine and trying, where possible, to use common variable names. If you use the following lines:
+
+40 Z%=O:FOR I=1 TO LEN(ZZ$):IFMID$(ZZ$,I,1)=Z$ THEN Z%=I
+41 NEXT I:RETURN
+
+then change line 14 in the first example to Gosub 40, deleting lines 15-17; and change line 31 in the second example to Gosub 40, deleting lines 32-34. You'll have reduced the program's length by about 50 bytes.
+
+A good part of the savings (20 bytes) came from using a multiple statement line (line 40) in which several statements share the same line number, each separated from the others by a colon. Some Basics do not allow this; others use a different character for a separator (such as a back-slash). Although such a line is more difficult to read, it does increase program efficiency. Remember, each line in your program, regardless of the actual line number used, requires five bytes of overhead.
+
+Conclusion
+
+In this articie I've discussed how variables are named and used, and the limitations in naming variables and in assigning values to them. Several string functions appear in the examples without detailed explanation, showing some of the more advanced operations you might attempt. Of course the only real way to understand these concepts is to play around with them yourself. Obviously, if you have read through this article, you must be interested in using Basic as a tool. The next step (practice, practice, practice) is up to you.
+
+Another side to variable names involves the use of arrays. Arrays allow simplification of many common program operations, and are frequently useful. Any type of variable, (string, integer or real) may be used as an array, and the same rules presented above for variable names apply to the names chosen for array variables. The only difference is that array variables are dimensioned and are followed by a subscript (in parentheses). My next article will be devoted primarily to the use of arrays in program applications.
+
+
+Address correspondence to:
+Dan Bishop
+Custom Comp
+PO Box 429
+Buena Vista , CO 81211
