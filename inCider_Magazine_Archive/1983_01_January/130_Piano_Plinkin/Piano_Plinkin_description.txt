@@ -1,0 +1,11 @@
+Piano Plinkin'
+
+Did you think the Apple ill was just for routine office chores? Not so! With this short program you'll soon be in the music business.
+
+by Billy Moore
+
+Piano (see Program listing) turns your Apple III keyboard into a one-octave piano-type keyboard complete with properly placed "black keys." You can play melodies in real time while the notes are displayed on the monitor. And once you've entered a melody, you can recall it by pressing P or save it on disk by pressing N-so you can insert tunes easily into other programs.
+
+The menu also includes simple edit features and variable speed and volume. Before trying this program, make sure an ".Audio" driver is included in the driver file. Also, the program as written accepts only uppercase letters to represent notes. Although I wrote the program in Apple III Business Basic, you can modify it easily to run on other computers with programmable sound.
+
+Billy Moore (1889 Chantilly Lane, Hayward, CA 94541) is an eighth grade student at Head-Royce School in Oakland.
