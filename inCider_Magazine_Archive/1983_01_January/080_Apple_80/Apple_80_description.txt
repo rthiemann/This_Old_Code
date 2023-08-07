@@ -1,0 +1,312 @@
+Apple/80
+
+Your Apple will run those outstanding TRS-80 programs! A slight investment of your time, and the following tutorial, will enable you to convert thousands of TRS-80 programs to Applesoft. Baftle all your TRS-80 friends with your newfound expertise...and run their programs on your Apple.
+
+by Hap Gaylord
+
+How many times have I read a computer magazine and come upon a fantastic article, only to find that the material is applicable only for a TRS-80, and not my Apple? Frustrating? You bet. "Why not convert the program for my Apple?" I ask myself.
+
+When I see the graphics I would need to rework to configure the program to my Apple, I sigh and turn to the next article.
+
+Back up! The Apple has high-resolution graphics capability, doesn't it? Why not create a shape table that duplicates the TRS-80 character and graphics set? With only slight modification, the TRS-80 program would run on the Apple-graphics and all. Wow! A TRS-80 emulator-an Apple-80!.
+
+If you're familiar with TRS-80 Level II and Applesoft Basic, you know that conversion from one to the other requires changes to accommodate the subtle dialectic differences in the two systems. Fortunately, both Basics were written by Microsoft, so most logic, assignment statements, loops, and string manipulations are identical. Input/ output routines will need modification, and several TRS-80 statements must be simulated for the Apple. Finally, hardware incompatibility creates a few real difficulties. The follow ing article will demonstrate the conversion process step by step.
+
+The Shape Table
+
+Recreating the TRS-80 graphic and character set in a shape table means using the Apple's 280 x 192 highresolution screen to simulate the TRS-80's 64 by 16 line display. Dividing 280 by 64 reveals room for character spaces four dots wide. The extra 24-dot columns will be disregarded. The 16 lines on the TRS-80 match exactly the Apple's 192 vertical dots, if we use 12 dots per row. Thus, a full character space will be a 4 x 12 dot matrix.
+
+One column of dots must separate characters, as well as rows of text. The ASCII set must be limited to a 3 x 8 dot matrix (see Figure 1). Such a narrow pattern seems impossible for alphabet design. However, only M, N, W, m, and w are troublesome. These five characters require double width. Any completely filled text line containing one or more of those letters will overflow, so the line has to be adjusted. That's a small price to pay to simulate the TRS-80 screen on the Apple. In the several programs I've converted, the overflow has occurred only once. The bonus of lowercase more than compensates for any inconvenience.
+
+A hex dump of the complete TRS-80 graphics and character-set shape table is displayed in Listing 1. This table contains punctuation and special symbols, numerals, upper- and lowercase letters and the 64 graphics characters, for a total of 160 shapes. No characters represent CHR$(0) through CHR$(31), or Level II's space compression codes. Those values are ignored.
+
+The shape table is fairly long, but you can enter it through the Apple's on-board monitor. If you prefer, I will supply a disk containing the binary files for $10 postpaid. To accomplish this from Basic, type CALL-151 and press return. A star prompt on your screen indicates your Apple is ready to accept input. Now type
+
+800: C0 00 80 01 80 01 80 01 (RETURN)
+
+for the first row of the shape table. Be sure to include the spaces as shown. Succeeding rows need no address, only the colon, as the Apple automatically stores the values successively. Type
+
+: 80 01 80 01 80 01 80 01 (RETURN)
+
+Continue entering each line until the shape table is completed. Double check your typing before pushing return. Errors are easy to commit with this type of data entry.
+
+Wait to save the table to tape or disk until the machine-language data has been entered, in order to save all the binary segments as a single unit.
+
+The three machine-language subroutines in Listings 2A, 2B and 2C print (actually draw) the TRS-80 alphanumeric characters on the high-resolution screen, handle the SET(X, Y) statement, and simulate POINT(X,Y). They could be drawn using Basic, but the process would be too slow because the Apple, in true high-resolution mode, creates graphics with 48 dots per character. The TRS-80 creates graphics with only 6 pixels (8 dots per pixel) per character space (see Figure 1).
+
+Type the subroutines in from the hex dump (Listings 2) exactly the way you entered the shape table. When finished, save the entire binary segment on disk as file "APPLE-80" by typing BSAVE APPLE-80, A$800, L$B00. To save to tape, type 800.12DBW. From the monitor return to Basic with a control-B.
+
+The shape table starts at 2048 ($800), the normal address for the beginning of an Applesoft program. Move any Basic program above the hires screen to 16385 with a
+
+POKE 103,1:POKE 104,64:POKE 16384,0
+
+before loading the program tape. The first two Pokes reset the program pointer. The last one places a zero in front of the program, a requirement of Applesoft.
+
+Similarities
+
+Table 1 lists the 37 statements TRS-80 Level II and Applesoft have in common. Any time these statements appear in a program being converted, type them into the Apple exactly as written for the TRS-80. They'll make up more than half of any TRS-80 program , so much of a converted listing will need absolutely no changes.
+
+
+ABS              EXP           RETURN
+AND              FOR-TO-STEP   RIGHT$
+ASC              GOSUB         SGN
+ATN              GOTO          SIN
+CHR$(except      IF-THEN       SQR
+1-31, 192-255)   INT           STOP
+COS              LEFT$         STR$
+DATA             LEN           TAN
+DIM              LET           VAL
+END              LOG
+
+Table 1. Applesoft and TRS-80 common statements
+
+
+Output
+
+An important difference between the two Basics occurs in printing to the video screen. The print statement is almost never used in converted Apple-80 programs, since all text and graphics are drawn in high resolution. This is easier than it sounds. All the machine-language print subroutine requires is to assign the starting screen location (H8%), define the string to be printed (M$), and call the hires draw routine (CALL 4200).
+
+The TRS-80 print statements come in several varieties. Table 2 shows the major types together with their translations. For example
+
+PRINT@ xxxx,M$
+
+where xxxx is a number between 0 and 1023, means "PRINT M$ beginning at the screen location number xxxx."
+
+For those unfamiliar with the TRS-80, the screen location numbers begin with 0 in the upper left corner and proceed left to right, 64 characters across, line by line, down the screen for 16 lines. Thus, the top line runs from 0 to 63, the second line from 64 to 127, and so on. For our Apple conversion, we use the line
+
+H8% = xxxx:M$ ="(the string to be printed)": CALL4200
+
+The xxxx is the same number that followed the @ in the TRS-80 program. It is the beginning print position on the screen. If the TRS-80 program gives no screen number, compute and supply the correct video location for the Apple conversion. Drawing and numbering sketch of the 64 by 16 screen will aid placement.
+
+The print routine normally sends lowercase letters to the screen, but any letter preceded by a ^ (typed with shift-N) will print uppercase. You must designate each capital letter separately.
+
+
+             TRS-80                           Apple-80
+PRINT@309,"SCORE: "                 H8%=309:M$= "^S^C^O^R^E: ": CALL 4200
+PRINT@0,CHR$(191);CHR$(65)          H8%=O:M$=CHR$(191) + CHR$(65):CALL 4200
+PRINT "Rules"                       H8%=xxxx:M$="^RULES":CALL 4200
+                                    (where you must supply the number for xxxx)
+PRINT@K, 472                        H8%=K:M$="472":CALL 4200
+PRINT@K, N                          H8%=K:M$=STR$(N):CALL 4200
+100 PRINT "You Win! ";:GOTO 100     100M$ = "^YOU ^WIN! ":H8%=H8% + LEN(M$)-1:CALL
+                                    4200:G0TO 100
+POKE 15360 + N,42                   H8%= N:M$=CHR$(42):CALL 4200
+
+Table 2: Print Statements
+
+
+Any numerical variable or number to be printed must first be converted to a string with the STR$ function. (See Table 2 for an example.) Any semicolon or comma in a converted print statement must be omitted, but figured into the H8% calculation. The semicolon can be approximated by H8% = H8% + LEN(M$). However, watch out for double-width letters and the capital letter ^ marker. The comma can be simulated by successively assigning to H8% the value of the first space in each column.
+
+The machine-language routine will move down a row automatically after filling a line, but forgets where on the screen it finished printing the previous string. The screen will overwrite rather than scroll. Scroll is a function rarely used now, except in some games. The hires draw routine will move 'automatically to the top of the screen after using the final lower right corner space.
+
+Often characters are poked onto the TRS-80 video screen instead of being printed. Knowing that the screen begins at memory location 15360 and runs line by line consecutively down to 16383, you need only subtract the 15360 to obtain the PRINT@ numbers. Then our Apple-80 print routine will work easily with M$ = CHR$(N), where N is the number to be poked.
+
+Examine the sample in Table 2. If the Poke address is out of the range 15360 to 16383, it's not a Poke to the screen and must be handled differently, as we'll learn later.
+
+Input
+
+The Input statement won't print an imbedded quote using Apple-80. The imbedded string must be printed separately. In fact, avoid Input entirely since any typed characters would not be echoed to the Apple's high-resolution screen for printing. Input from the keyboard is handled best with Get or Peek(-16384). Use Get to replace Input in a routine similar to the one in Program listing 4, lines 9 to 29. A Gosub 9 invokes the Get command and, on return, B$ holds the input string.
+
+This string can be reassigned to the TRS-80 variable name. With Get, we can fetch a character, then print the character on the high-resolution screen, and accommodate backspaces. Each typed character, is concatenated into the final string.
+
+To type capital letters, first type ^, then the letter. The ^ won't show on your screen, but will be placed into the string. If a number is typed, the VAL function will evaluate the resulting string in the body of the program.
+
+Get causes the computer to wait until a character is typed. Use PEEK(-16384) for input on the fly. The value returned by the Peek will be larger than 127 if a key was pressed. This is the Apple equivalent of the TRS-80's INKEY$. Table 3 compares the various input routines.
+
+
+             TRS-80                                Apple-80
+INPUT "Name";N$                         H8%=xxx:M$= "ANAME?":CALL 4200:GOSUB 9:N$ = B$
+INPUT N                                 H8%=xxx:M$ = "?":CALL 4200:GOSUB 9: N = VAL(B$)
+K$=INKEY$ (this doesn't check for a     K8=PEEK( -16384):K$ = "":IF K8>127 THEN K$ = 
+key actually being pushed)              CHR$(K8-128):POKE -16368,0 GET K$
+205 K$=INKEY$:IF K$ = " " THEN 205
+   (this does wait for a key press)
+IF PEEK(14400)=32 THEN 2000             IF PEEK(-16384) = 136 THEN 2000
+(i.e. if the left arrow is depressed
+GOTO that routine at line 2000.)
+
+Table 3. Input routines compared.
+
+
+TRS-80 games often use another form of input. PEEK(N), where 14336<N<15359, is a running look at the keyboard switch network to see whether any key is currently depressed. For the Apple, use N=PEEK(-16384) for this particular function. Avoid resetting the keyboard strobe with POKE -16368,0. Each key pressed subsequently will change the value of N, but N will remain fixed until you press another key.
+
+Unfortunately, the two machines differ here. On the TRS-80, releasing all keys resets N to zero. On the Apple, however, the old value of N remains until reset with POKE -16368,0. This is true even if no keys remain depressed. On the other hand, if the program executes a POKE -16368,0 and you continue to depress a key, the Apple treats the key as released unless the repeat key is also depressed, or the key is released and depressed again.
+
+Program translations have to be designed around this difference. For example, one could use I, J, K, L and M for up, left, stop, right and down, respectively. When K, the stop key, is pressed, do a POKE -16368,0 to reset the keyboard.
+
+Finally, the TRS-80 has different Peek addresses for different sets of keys, and varying values for each separate key. The Apple uses ASCII numbers added to 128. See Table 6 for compatible values, and the example in Table 5.
+
+Other Differences
+
+Differences between Level II Basic and Applesoft can be reconciled by correcting the syntax to satisfy Applesoft, or by subroutines that accomplish the same purpose. CLS (Clear the Screen), for instance, can be simulated by HGR:POKE -16302,0:H8% =0. Since CLS occurs so often in programs, I constructed it as a Basic subroutine, as in Program listing 5. A simple Gosub 5 will clear the screen and prepare to print at the top left corner.
+
+Perhaps the most important difference in the two Basics is the absence of the Else statement in Applesoft. Else gives the TRS-80 the capability of including both true and false actions in If-Then comparisons. The statements immediately following the Then up to the Else are executed if true; the statements following the Else are performed if false.
+
+Every If-Then-Else must be split into two lines on the Apple. The first contains the If-Then up to, but excluding, the Else. The second contains the statements following the Else. Additionally, the new If-Then must include a jump over the newly created second line to avoid doing the Else statements when the computer automatically moves on to the next program line. For example,
+
+100 IF C>350 THEN T = T + 1 ELSE C = C + 1
+120 (program continues)
+
+would be rewritten as
+
+100 IF C>350 THEN T = T + 1 :GOTO 120
+110 C = C + 1
+120 (program continues)
+
+Also examine lines 310 and 320 of Listing 4 for another variation.
+
+More Differences
+
+The TRS-80's random number generator, RND(N) , must be converted to Applesoft syntax INT(RND(1)*N) + 1, where N is a positive integer. (Note, however, that RND(O) on the TRS-80 is identical to RND(1) on the Apple. Both produce decimals between 0 and 1.)
+
+STRING$ doesn't exist in Apple's Basic. On the TRS-80, it creates a multiple line of the character whose ASCII value is designated in the parenthetical argument. For example , STRING$(20,65) would be a string of 20 A's (65 is the ASCII value for A). We can simulate this function by simply typing the 20 A's between quotation marks, or with a loop to build up the string, as in M$ = "": FOR I=1 TO 20 :M$ = M$ + CHR$(65):NEXT I.
+
+The latter approach would be required if the 20 were a variable, or if the character were a TRS-80 graphics character (CHR$(128) through CHR$(191)).
+
+SET(X,Y) and RESET(X,Y), which create the TRS-80's graphics (similar to Apple's Plot command), are simulated by a Call to a machine-language routine (CALL 4600). The X (0 to 127 across) and Y (0 to 47 down) coordinates are passed to the routine through H8%, so a converted line looks like H8%=X+256*INT(Y):CALL 4600. Unless you know Y is an integer you must use INT(Y), because multiplying Y by 256 may magnify some of the decimal enough to corrupt the integer. If the HCOLOR has been set to white, the above line will Set; if the HCOLOR is black, it will Reset (i.e., erase). (See line 570 of Listing 4.) One slight difference here is that this routine doesn't erase a character when Set overlays it. The TRS-80 does. This strikes me as an advantage for overprinting.
+
+POINT(X,Y) requires a special machine-language subroutine as well. This function determines whether a specified point (X across, Y down) is currently set or not, similar to Apple's SCRN(X,Y). A CALL 4700 invokes the subroutine, and the result can be tested with a PEEK(31). Only if PEEK(31) equals 255 is the point set. The entire Applesoft line to match IF POINT (X,Y) THEN... or IF POINT(X,Y) = - 1 THEN... would be
+
+H8% =X+ 256*INT(Y):CALL 4700: IF PEEK(31) = 255 THEN...
+
+DEFINT (DEFine INTeger) and DEFSTR (DEFine STRing) are not available as Applesoft statements. Instead, the Apple uses the % (integer) or $ (string) on every occurrence of the variable's name. For example, 10 DEFINT A : DEFSTR T on the TRS-80 would require an Apple program to use A% and T$ every time those variable names were used. Line 10 above can't be duplicated in an Apple program. When converting a TRS-80 program, remember that DEFSTR A means any variable name anywhere in the program that begins with an A is a string, whether a dollar sign follows the name or not. Thus, A2 ="I WIN!" is perfectly acceptable on the TRS-80. DEFSTR A-T assigns all variables beginning with the letters from A through T to be strings. Any later individual assignment using the symbols % (integer), ! (single precision), or $ (string) on each occurrence of the name will override the DEFSTR A-T temporarily.
+
+DEFSNG (DEFine SiNGle precision) matches the default for the Apple, so you can omit it.
+
+If an error trap is used (ON ERROR GOTO), type ONERR GOTO for the Apple. The functions are the same on both machines. The TRS-80's ERL can be simulated by PEEK(218) + 256*PEEK(219). ERL calculates the line in which an error occurred. Similarly, use PEEK(222) for Level II's ERR/2 + 1 to obtain the code number for an error. But beware! The error codes are different for each system.
+
+RESUME is nearly the same in both Basics. In a TRS-80 program it's often followed by a line number. Put GOTO in the Apple error routine to handle that situation. RESUME NEXT on the TRS-80 has no equivalent in Applesoft.
+
+Poke has already been discussed, as it applies to output to the screen. Any other Pokes in a Level II program are probably to TRS-80 pointers, and may be nearly impossible to duplicate on the Apple. Similarly, Peek's three common functions are not easily simulated either. Peeks to the keyboard (14336 to 15359) have been discussed.
+
+Peeking screen memory locations is impossible in Applesoft because we're not using the Apple text screen. This capability can, however, be simulated by establishing an array which matches the TRS-80 screen memory to keep track of the locations of values or characters. To establish the array, DIM SC%(63,15) then assign any ASCII value from the TRS-80 screen to the matching locations in the array. The top right corner, for example, if assigned the character A, would be SC%(63,0)=65. A program could then check for an A in the top right corner (IF SC%(63,0)=65 THEN...).
+
+Peeks to any other location are specific to the TRS-80 and aren't easily transferable. Any machine-language subroutines, such as music or fast graphics that are poked in by a TRS-80 program, must be entirely rewritten from Z-80 to 6502 code, or else scrapped. If you are not fluent in assembly language, avoid TRS-80 programs with machine language, or at least that particular part of the program.
+
+Simulating VARPTR(A$)
+
+VARPTR(A$) stands for VARiable PoinTeR, and it is a difficult statement to implement on the Apple. It locates the starting address in memory of any variable. Any program that uses it is probably doing some fancy stepping.
+
+The variable name in the parentheses can be located in the Apple's variable table that begins at the address held in memory locations 105 and 106 in page zero. Peek these locations, then scan the variable table to find the variable's correct name. This memory location stores the value for a numerical variable or the length and address of a string variable.
+
+
+                          TRS-80 value
+        TRS-80 PEEK(N)   returned from   Apple PEEK(-16384)
+Key         where N =        PEEK(N)          returns
+ @           14337               1              192
+ A           14337               2              193
+ B           14337               4              194
+ C           14337               8              195
+ D           14337              16              196
+ E           14337              32              197
+ F           14337              16              198
+ G           14337             128              199
+ H           14338               1              200
+ I           14338               2              201
+ J           14338               4              202
+ K           14338               8              203
+ L           14338              16              204
+ M           14338              32              205
+ N           14338              64              206
+ O           14338             128              207
+ P           14340               1              208
+ Q           14340               2              209
+ R           14340               4              210
+ S           14340               8              211
+ T           14340              16              212
+ U           14340              32              213
+ V           14340              64              214
+ W           14340             128              215
+ X           14344               1              216
+ Y           14344               2              217
+ Z           14344               4              218
+ 0           14352               1              176
+1 !          14352               2            177/161
+2 “          14352               4            178/162
+3 #          14352               8            179/163
+4 $          14352              16            180/164
+5 %          14352              32            181/165
+6 &          14352              64            182/166
+7 ‘          14352             128            183/167
+8 (          14368               1            184/168
+9 )          14368               2            185/169
+* :          14368               4            170/186
++ ;          14368               8            171/187
+ <           14368              16            188/172
+= -          14368              32            189/173
+> .          14368              64            190/174
+? /          14368             128            191/175
+ENTER        14400               1              141
+ (RETURN)
+CLEAR        14400               2         no equivalent
+BREAK        14400               4         no equivalent
+↑ (^)        14400               8              222
+ ↓           14400              16         no equivalent
+ ←           14400              32              136
+ →           14400              64              149
+SPACE        14400             128              160
+SHIFT        14464               1       does not register
+
+Table 4. Apple and TRS-80 Peek addresses.
+
+
+Each variable occupies seven bytes in the Apple's variable table. The first two bytes store the name. Integers have 128 added to the ASCII value of each of the characters in the name. The integer sign (%) is not stored. So, AA% would have 128 added to the ASCII value for each A (65) stored in each location, making 193 193. Following the two name bytes comes the high byte of the variable's value, the low byte, and three zeros to fill the extra spaces.
+
+A single precision number is stored with both letters' ASCII value intact, so AA would be stored as 65 65. The next byte is the exponent, followed by four bytes for the mantissa of the value.
+
+A string value has 128 added only to the second character of the name. Thus, AA$ would be 65 193. The next byte is the string length. The memory address of the string is stored in the next two bytes, low byte first and high byte second. Two zeros fill out the remaining spaces.
+
+Only the first two characters of any variable's name are stored, and a single letter name has the second byte either 0 or 0 + 128. For example, A$ would be 65 128.
+
+Using this information, K = VARPTR(A$) on the TRS-80 can be simulated by N$ = "A$":GOSUB 50 which calls the Applesoft subroutine in Program listing 6. In place of the A$, put whatever variable name is in the parentheses following the VARPTR statement in the TRS-80 program.
+
+One important caution. The Apple stores variable values highest byte first and lowest byte last. If you converted these values from a TRS-80 program, reverse their order in the Apple program. Consult both manuals if you must delve into this particular area. String addresses, on the other hand, are stored identically by both machines. Since the most frequent use of VARPTR is for what's called string packing, problems should be rare.
+
+USR(N) is almost the same on each machine. For the TRS-80, poke the machine-language routine's address into 16526 and 16527. The Apple uses 11 and 12. (You must also POKE 10,76 on the Apple.) For example, 150 POKE 16526,J:POKE 16527,K:N = USR(2) can be duplicated by 150 POKE 10,76:POKE 11,J:POKE 12,K:N = USR(2). The value in parentheses is passed to the routine. Any program which includes USR uses a machine-code subroutine which has to be completely rewritten.
+
+LLIST and LPRINT send TRS-80 output to the printer. The Apple uses PR# 1, followed by the normal list or print commands, or whatever instruction your computer happens to require.
+
+Four minor differences will probably never cause you any trouble, unless I fail to mention them.
+
+First, the logic in If-Then statements and logic operations evaluates to minus one on the TRS-80, but to plus one on the Apple. Second,the Then in an If-Then statement is optional on the TRS-80, but not in Applesoft. Thirdly, the TRS-80 prints numbers with a space preceding (unless that space is used for a negative sign) and another space following the number. The Apple includes no such spaces around its numbers. Fourth, an Applesoft time delay loop counts about three times as fast as the TRS-80 loop. Increase any values in such loops appropriately.
+
+Statements You Can Omit
+
+Some TRS-80 statements need not be converted because they aren't used in Applesoft. CLEAR is a perfect example. On the TRS-80, CLEARn sets aside a specified amount of string space. The Apple, however, automatically allots all available extra memory for strings. (Incidentally, Applesoft has its own Clear statement, but this one nulls variables. Don't confuse the two!)
+
+Similarly, FRE(A$) on the TRS-80 calculates how much string space remains unused. In Applesoft, FRE(0) calculates how much memory is unused (and remains available to strings). Applesoft's FRE(0) also substitutes for the TRS-80s MEM function.
+
+RANDOM reseeds the TRS-80's random number generator. This is not a critical function, and may be omitted.
+
+CINT and CSNG force the result of a calculation to become an integer or single precision number, respectively. As discussed for DEFINT and DEFSNG, Applesoft will do this by appending the % sign for integer, and using no special character for a single precision variable.
+
+Statements That Must Be Omitted
+
+The five remaining TRS-80 statements are machine specific and can't be duplicated on the Apple without enormous effort. Avoid INPUT#, PRINT#, PRINT USING, IN, and OUT. Additionally, any variable with the # sign after its name, such as K#, is double precision, a capability Applesoft doesn't provide. Similarly, DEFDBL and CDBL can't be converted without writing your own double precision routines. CHR$(23) creates double width text on the TRS-80 screen. The Apple can't duplicate that easily, but I have used SCALE = 2 to draw double size (both width and height) characters to approximate (and sometimes improve upon) the effect.
+
+CHR$(N), where O<N<31, are control codes of various types. Examples are backspace (8), linefeed (26), or clear to the bottom of the screen (31). These functions would need special routines to implement them.
+
+A Sample Program
+
+Program listings 3 and 4 compare a sample TRS-80-to-Apple conversion. The original TRS-80 program draws a simple bar graph from input data. The Apple conversion duplicates the program exactly. The converted program was easy to translate without altering message length, graphics or layout.
+
+In the Apple version, line 0 must be the first program line. It established M$ as the first, and H8% as the second, variable in the Apple's table. The machine-language routines used these positions to locate strings to print and to fetch their screen positions, and thus are vital to the converted program's success.
+
+Line 1 defines the disk command character (control-D), and then relocates the Basic program above hires screen 1, if the program's not already there. This makes room from memory locations 2048 to 8192 (6K) for the shape table and machine-language routines. This also leaves 22K from 16384 to the start of DOS for the converted program (on a 48K Apple). This doesn't mean, however, that a 22K TRS-80 program will .fit into this area. The Apple conversion requires more memory since it must do things in a more complex manner. Nevertheless, any converted 16K TRS-80 program ought to be smaller than 22K, and to fit easily.
+
+Line 2 dispatches some preliminaries and then loads the binary file containing both the shape table and the machine language that accesses it. Line 5 is the subroutine that clears the screen, while lines 9 to 29 simulate the Input command.
+
+Line 600 of the TRS-80 listing prevents the cursor from reappearing on the screen and erasing part of the graphics. Since the Apple cursor doesn't appear on the hires screen, the Applesoft program can use END in its place.
+
+The remainder of the program can be compared line by line, to see how the conversion goes. Quite straightforward. You don't even need to see the original program run on a TRS-80 to recreate it on your Apple.
+
+Several enhancements to existing TRS-80 programs are now possible. Using the Apple's own graphics; such as underlining text, or adding sound, good TRS-80 programs may be made better Apple-80 programs.
+
+Here's one useful tip if you're using a color television as a monitor. Detune it slightly so that the display is in black and white. TRS-80 programs have no color, and black and white text is much clearer.
+
+Any worthwhile TRS-80 program deserves the time spent to convert it for your Apple using this relatively simple process. The number of programs available to your Apple will dramatically expand. You need no longer envy TRS-80 owners their range of material, or pass up that TRS-80 magazine article or book that contains exactly the program you've been hunting for. Make it an Apple-80 program, and enjoy.
+
+
+Address correspondence to:
+Hap Gaylord
+PO Box 222
+Bedford, NY 10506
