@@ -8,7 +8,7 @@ https://ia903005.us.archive.org/4/items/blastar-elon-musk-spectravideo/Blastar%2
 
 The license is unknown, but is presumed to be open to the public, given it was openly published with the expectation that people would type it in and run it on their own personal computers.
 
-**The original scan is not of very high quality. Therefore, there are likely typos. As of Oct 25,2021, I have not yet put it into a Spectra Vision emulator to see if it runs. That is a task for a future date or another person. **
+**The original scan is not of very high quality. Therefore, there are likely typos. As of Oct 25,2021, I have not yet put it into a SpectraVision or an emulator to see if it runs. That is a task for a future date or another person. **
 
 Orignal description:
 
