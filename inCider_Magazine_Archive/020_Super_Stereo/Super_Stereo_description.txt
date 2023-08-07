@@ -1,0 +1,107 @@
+Super Stereo
+
+This first of many columns written by the insiders at Apple Computer Inc. makes. distortion-free stereo a possibility for all.
+
+by Phil Roybal
+
+Does your stereo system sound like what you paid for it? You may have lavished funds on elegant electronics, only to feed them a poor-quality signal and wonder at the miserable sound that resulted. Since you can encounter substantial distortion right where the needle meets the record, it pays to make sure that the phono cartridge source is adjusted for optimum performance. Your Apple II can help you do it right.
+
+Distortion is unavoidable in normal record reproduction, even with a good-quality cartridge and a light, modern tone arm. Why? Aside from electrical limitations of the components themselves, no pivoted tone arm can accurately track across a record's surface. It moves its cartridge in a curve, and proper tracking actually requires a straight-line motion. But proper setup of the cartridge can bring this tracking distortion within acceptable limits, actually reducing it to zero at some points on the record's surface. This article tells how to get there.
+
+The Essence of the Problem
+
+Let's start by using the Apple to model the effect of tracking distortion upon a simple signal.
+
+Figure 1a shows a sine wave, representing the modulation (y) of your record groove as a function of distance (x) along (or around) the groove. This is the signal on one channel of the record, as picked up by a phono cartridge under ideal conditions.
+
+Unfortunately, conditions are rarely ideal. Usually a small amount of misalignment exists: Tracking error results because a tone arm cannot keep the cartridge tangential to the groove at all places on the record surface. If we call this error ϵ, and show it graphically as a "tilting forward" of the point, y(x), where we pick up the sine wave we see that the picked-up waveform develops a distortion proportional to the amplitude of the recorded signal at each point. This effect is equivalent to a compression of the time that it takes for the signal to swing positive, and an extension of the time that it takes for the signal to swing negative. It acts to introduce into the picked-up signal some irritating harmonics of the original sine wave.
+
+Figure 1b shows the initial sine wave and the distortion resulting from a gross cartridge misalignment of 30 degrees. (Of course, such drastic misalignment would be rare, but it allows the effect to be easily seen.) Listing 1 shows an Applesoft Basic program that will generate these curves for any given amount of tracking error. It was used, along with Apple's new DOS Toolkit (for hi-res text), for producing Figure 1b.
+
+Approaching a Solution
+
+Two types of tone arms are in common use today: straight and offset designs. A brief examination of how they traverse a record's surface shows that they have slightly different tracking error characteristics. As a matter of fact, if you construct the equations for the two different arm geometries, you'll find that the errors approximate the results shown graphically in Figure 2. The straight arm, with one degree of design freedom (pivot angle), has a tracking error expressed by graph T1. The offset arm, sporting two degrees of design freedom (pivot angle and offset angle), more closely approximates zero tracking error as shown in graph T2.
+
+A little examination of Figure 2 reveals an item of interest: A properly set-up tone arm can produce zero tracking error in at least one place on the record. For straight arms, that zero point will occur somewhere near the center of the recorded area, and absolute tracking error will rise to some maximum value at the extremes of the recorded band.
+
+Offset arms yield a bonus that compensates us for their extra weight: zero tracking error at two places on the record. At other locations, distortion will rise to a maximum value that's only half that produced by a straight arm.
+
+Putting It Into Practice
+
+This may seem interesting but a little abstract. Straight arm or curved, you're probably content with what you've got, and knowing its distortion characteristics won't make it sound any different. But these graphs express ideal conditions, and most phono cartridges don't operate under ideal conditions. Why not? Because we don't mount the cartridge (or the tone arm) properly, even though we may follow the manufacturer's instructions. As a result, cartridge overhang (Figure 3) is incorrect. Here's where you (and the Apple) can help.
+
+If you were to mathematically model the action of your tone arm crossing a record surface, you could derive the equations for optimal overor underhang (the distance between the tip of the stylus and the center of the record spindle) shown below. These presume an arm designed for 33 1/3 RPM records, and mounted to provide the minimum (optimal) tracking error over the record surface.
+
+Straight Arm Optimal Underhang (stylus distance short of the spindle center):
+
+** Equation not shown. See reference images **
+
+Where r1 and r2 stand for the inner and outer limits of the recorded band, and equal 146 and 60.3 mm respectively.
+
+Offset Arm Optimal Overhang (stylus distance beyond the spindle center):
+
+** Equation not shown. See reference images **
+
+Running these equations out on your Apple provides the cartridge positioning table in Table 1. With the program in Listing 2, you can produce this table for almost any size tone arm. Then, having computed the desired overhang/underhang, you just establish that adjustment. Here's how.
+
+Looking straight down at your record player, locate the center of your tone arm's bearing rotation (the pivot point of the arm on its pillar) as best you can. Mark it with a pencil. Then measure from there to a point directly over the tip of the stylus. This is your arm's effective length, L (Figure 3). Run the program in Listing 2 using this length to compute your desired overhang/underhang.
+
+-----------------------------------
+EFFECT.  STRAIGHT  OFFSET    OFFSET
+LENGTH   UNDRHANG  OVHANG    ANGLE
+ (MM)      (MM)     (MM)     (DEG.)
+-----------------------------------
+260      12        -15.3     21.1
+261      11.9      -15.3     21
+262      11.9      -15.2     20.9
+263      11.8      -15.2     20.8
+264      11.8      -15.1     20.7
+265      11.7      -15.1     20.7
+266      11.7      -15       20.6
+267      11.6      -14.9     20.5
+268      11.6      -14.9     20.4
+269      11.6      -14.8     20.3
+270      11.5      -14.8     20.3
+271      11.5      -14.7     20.2
+272      11.4      -14.7     20.1
+273      11.4      -14.6     20
+274      11.3      -14.6     20
+275      11.3      -14.5     19.9
+
+Table 1. Table of Underhang/Overhang Values. A properly set up tone arm will produce the underhang or overhang shown here. To find the proper value for other arm lengths , just run the program shown in Listing 2.
+
+Now, loosen the cartridge mounting and gently maneuver the cartridge until you have established the specified overhang (beyond the spindle center) or under hang (short of the spindle center). (If you have difficulty measuring to the center of the spindle, measure to its side and add 3.6 mm.) Then tighten the cartridge mounting bolts slightly, so the cartridge will not slip out of place but you can still twist it. Note: Some arms feature positioning screws that let you make this adjustment without loosening the cartridge mounting.
+
+Recheck your effective length (L). In the unlikely event that you've had to make a large adjustment to cartridge position, L will have changed, and the desired overhang with it. You must sneak up on the overhang recursively. (Obviously, it is possible that the arm may be mounted in such a position that correct overhang cannot be achieved at any cartridge adjustment. This spells hard choices: permanent distortion or remounting of your arm.)
+
+Now, with the cartridge almost in place, the next step is to twist it in its mounts to get-zero tracking error at its one (straight arm) or two (offset arm) optimum point(s). For that you'll need a special homemade tool.
+
+Build yourself a little protractor using a 4 X 6 inch index card. Mark a spindle point in one corner, and draw a line from that mark diagonally across the card. Along that line, mark the following distances from the center of the spindle mark:
+
+Straight Arm: 66.0 mm
+Offset Arm: 66.0 mm and 120.9 mm
+
+These are the zero-tracking-error points for the two different arm geometries.
+
+Now, using a square, make a series of closely-spaced, parallel lines perpendicular to this diagonal line across the card. Center these group(s) of lines on the mark(s) you made above, making sure that they extend beyond the marks on each side by a little more than 1/2 the width of your phono cartridge (see the photo).
+
+Now punch a hole in your card at the spindle mark, and mount the card on your turntable platter. Reduce the antiskating bias on your tone arm to zero, and carefully manipulate the platter and tone arm until you can set the stylus precisely on one of your marks. Look at the cartridge, head on, in a strong light. Its sides should line up with your protractor's parallel lines. If they don't, gently twist the cartridge in its mounting until they do. For offset arms, you can now move the stylus to the second zero-error point to check your alignment. Tighten the cartridge in its mounting, being careful not to disturb its alignment. Then recheck it for good measure.
+
+Now you're ready for final setup. Get out your stylus pressure gauge and rebalance your tone arm for the tracking force recommended by the cartridge manufacturer. (Stylus pressure may have changed due to remounting of the cartridge.)
+
+Finally, restore the antiskating force to correspond to the tracking weight you're using. Then turn off your Apple and enjoy the music!
+
+Bibliography
+
+H. J. Baerwald, "Analytic Treatment of Tracking Error and Notes on Optimal Pick-Up Design," J. Soc. Mot. Pict. Eng., Dec. 1941, p. 591.
+
+P. Aczel, "Cartridge/Arm/Turntable Follow-Up: Loose Ends and New Developments," Audio Critic Mag., Vol. 1 No. 6, Spring 1978, p. 43.
+
+Applesoft Basic Programming Reference Manual, Apple Computer Inc., 1978.
+
+Address correspondence to:
+Phil Roybal
+European Marketing Manager
+Apple Computer Inc.
+10260 Bandley Drive
+Cupertino, CA 95014.
